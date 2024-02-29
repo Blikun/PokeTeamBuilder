@@ -1,7 +1,7 @@
 
 part of 'pokedex_controller.dart';
 
-class DexControllerState {
+class PokedexState {
 
     /// Indexed pokemon names plus count repository
     final Rx<PokeIndex?> index = Rx<PokeIndex?>(null);

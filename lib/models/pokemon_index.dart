@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-PokeIndex pokeIndexFromJson(String str) => PokeIndex.fromJson(json.decode(str));
-
-String pokeIndexToJson(PokeIndex data) => json.encode(data.toJson());
+PokeIndex pokeIndexFromPokeApi(String jsonString) => PokeIndex.fromPokeApiJson(json.decode(jsonString));
 
 class PokeIndex {
   final int? count;
@@ -22,15 +20,11 @@ class PokeIndex {
         dexIndex: dexIndex ?? this.dexIndex,
       );
 
-  factory PokeIndex.fromJson(Map<String, dynamic> json) => PokeIndex(
+  factory PokeIndex.fromPokeApiJson(Map<String, dynamic> json) => PokeIndex(
     count: json["count"],
     dexIndex: json["results"] == null ? [] : List<DexIndex>.from(json["results"]!.map((x) => DexIndex.fromJson(x))),
   );
 
-  Map<String, dynamic> toJson() => {
-    "count": count,
-    "results": dexIndex == null ? [] : List<dynamic>.from(dexIndex!.map((x) => x.toJson())),
-  };
 }
 
 class DexIndex {

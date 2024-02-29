@@ -1,15 +1,23 @@
-
 import 'package:get/get.dart';
 
-import '../../data/pokemon_index.dart';
-import '../../data/pokemon_model.dart';
+import '../../models/pokemon_index.dart';
+import '../../models/pokemon_model.dart';
+
+
 
 part 'pokedex_state.dart';
 
-class DexControllerLogic extends GetxController {
-  final DexControllerState state = DexControllerState();
+class PokedexController extends GetxController {
+  final PokedexState state = PokedexState();
 
-  void updatePokedex(Rx<List<PokemonModel?>> pokemons) {
+  void updatePokedex(List<PokemonModel?> newPokemons) {
+    final pokedex = state.pokedex.value;
+    for (var newPokemon in newPokemons) {
+      bool exists = pokedex.any((existingPokemon) => existingPokemon!.id == newPokemon!.id);
+      if (!exists) {
+        pokedex.add(newPokemon);
+      }
+    }
   }
 
   void updateName(String? newValue) {
