@@ -6,15 +6,18 @@ import 'api_interface.dart';
 
 /// [API] implementation for pokeapi.co
 class PokeApi implements API {
-  final Dio dio;
-  final String baseUrl;
+  late final Dio dio;
 
-  PokeApi(this.dio, {this.baseUrl = "https://pokeapi.co/api/v2/"});
+  PokeApi() {
+    dio = Dio(BaseOptions(
+      baseUrl: "https://pokeapi.co/api/v2/",
+    ));
+  }
 
   @override
   Future<PokeIndex> pokeIndex() async {
     try {
-      final response = await dio.get("$baseUrl/pokemon?limit=10000&offset=0");
+      final response = await dio.get("/pokemon?limit=10000&offset=0");
       return pokeIndexFromPokeApi(response.data);
     } catch (e) {
       throw Exception('Failed to fetch Index - $e');
@@ -24,7 +27,7 @@ class PokeApi implements API {
   @override
   Future<PokemonModel> singlePokemon(int id) async {
     try {
-      final response = await dio.get("$baseUrl/pokemon/$id");
+      final response = await dio.get("/pokemon/$id");
       return pokemonModelFromPokeApi(response.data);
     } catch (e) {
       throw Exception('Failed to fetch Pokemon - $e');
@@ -34,6 +37,7 @@ class PokeApi implements API {
   @override
   Future<List<PokemonModel>> pokemonListPaginated(
       int limit, int offset, List<String> searchParams) async {
+
     throw UnimplementedError();
   }
 }

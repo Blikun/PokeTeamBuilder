@@ -7,8 +7,6 @@ import '../models/pokemon_model.dart';
 /// API client manager can extend an [API] implementation
 class ApiClient extends PokeApi{
 
-  ApiClient(super.dio);
-
   Future<PokeIndex> getIndex() async {
     return super.pokeIndex();
   }

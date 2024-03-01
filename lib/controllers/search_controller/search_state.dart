@@ -1,3 +1,4 @@
+part of 'search_controller.dart';
 
 class SearchState {
   SearchState() {

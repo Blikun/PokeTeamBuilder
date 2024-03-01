@@ -1,6 +1,5 @@
-import 'dart:convert';
 
-PokeIndex pokeIndexFromPokeApi(String jsonString) => PokeIndex.fromPokeApiJson(json.decode(jsonString));
+PokeIndex pokeIndexFromPokeApi(Map<String, dynamic> json) => PokeIndex.fromPokeApiJson(json);
 
 class PokeIndex {
   final int? count;

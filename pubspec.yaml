@@ -14,6 +14,7 @@ dependencies:
   get:
   flutter_animate:
   google_fonts:
+  responsive_sizer: ^3.3.0+1
   dio: ^5.4.0
   cupertino_icons: ^1.0.6
 

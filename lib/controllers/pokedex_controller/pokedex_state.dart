@@ -8,9 +8,4 @@ class PokedexState {
     /// Fetched [PokemonModel] repository
     final Rx<List<PokemonModel?>> pokedex = Rx<List<PokemonModel?>>([]);
 
-
-    final Rx<String?> name = Rx<String?>(null);
-
-
-
 }

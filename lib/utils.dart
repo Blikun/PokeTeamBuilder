@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:poke_team_builder/constants.dart';
 
 class Utils {
@@ -14,4 +17,12 @@ class Utils {
     return pokeType;
   }
 
+}
+
+class WebDragScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
