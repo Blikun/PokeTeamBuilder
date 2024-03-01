@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:graphql/client.dart';
 
 import '../models/pokemon_index.dart';
 import '../models/pokemon_model.dart';
@@ -7,8 +8,14 @@ import 'api_interface.dart';
 /// [API] implementation for pokeapi.co
 class PokeApi implements API {
   late final Dio dio;
+  late final GraphQLClient graphQLClient;
 
   PokeApi() {
+    graphQLClient = GraphQLClient(
+      cache: GraphQLCache(),
+      link: HttpLink("https://beta.pokeapi.co/graphql/v1beta"),
+    );
+
     dio = Dio(BaseOptions(
       baseUrl: "https://pokeapi.co/api/v2/",
     ));
@@ -17,10 +24,25 @@ class PokeApi implements API {
   @override
   Future<PokeIndex> pokeIndex() async {
     try {
-      final response = await dio.get("/pokemon?limit=10000&offset=0");
-      return pokeIndexFromPokeApi(response.data);
+      final QueryOptions options = QueryOptions(
+        document: gql('''
+        
+        query MyQuery {
+          pokemon_v2_pokemon(limit: 151, offset: 0) {
+            name
+            id
+          pokemon_v2_pokemonsprites {
+            sprites(path: "front_default")
+              }
+            }
+          }
+
+            '''),
+      );
+      final QueryResult result = await graphQLClient.query(options);
+      return pokeIndexFromPokeGQL(result.data!);
     } catch (e) {
-      throw Exception('Failed to fetch Index - $e');
+      throw Exception('Failed to query Index - $e');
     }
   }
 
@@ -37,7 +59,6 @@ class PokeApi implements API {
   @override
   Future<List<PokemonModel>> pokemonListPaginated(
       int limit, int offset, List<String> searchParams) async {
-
     throw UnimplementedError();
   }
 }

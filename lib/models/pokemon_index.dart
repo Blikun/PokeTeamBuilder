@@ -1,12 +1,10 @@
-
-PokeIndex pokeIndexFromPokeApi(Map<String, dynamic> json) => PokeIndex.fromPokeApiJson(json);
+PokeIndex pokeIndexFromPokeGQL(Map<String, dynamic> json) =>
+    PokeIndex.fromPokeGQL(json);
 
 class PokeIndex {
-  final int? count;
   final List<DexIndex>? dexIndex;
 
   PokeIndex({
-    this.count,
     this.dexIndex,
   });
 
@@ -15,42 +13,36 @@ class PokeIndex {
     List<DexIndex>? dexIndex,
   }) =>
       PokeIndex(
-        count: count ?? this.count,
         dexIndex: dexIndex ?? this.dexIndex,
       );
 
-  factory PokeIndex.fromPokeApiJson(Map<String, dynamic> json) => PokeIndex(
-    count: json["count"],
-    dexIndex: json["results"] == null ? [] : List<DexIndex>.from(json["results"]!.map((x) => DexIndex.fromJson(x))),
+  factory PokeIndex.fromPokeGQL(Map<String, dynamic> indexData) => PokeIndex(
+    dexIndex: indexData["pokemon_v2_pokemon"] == null
+        ? []
+        : List<DexIndex>.from(indexData["pokemon_v2_pokemon"].map((x) => DexIndex.fromJson(x))),
   );
-
 }
 
 class DexIndex {
   final String? name;
-  final String? url;
+  final String? frontDefault;
 
   DexIndex({
     this.name,
-    this.url,
+    this.frontDefault,
   });
 
   DexIndex copyWith({
     String? name,
-    String? url,
+    String? frontDefault,
   }) =>
       DexIndex(
         name: name ?? this.name,
-        url: url ?? this.url,
+        frontDefault: frontDefault ?? this.frontDefault,
       );
 
   factory DexIndex.fromJson(Map<String, dynamic> json) => DexIndex(
-    name: json["name"],
-    url: json["url"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "name": name,
-    "url": url,
-  };
+        name: json["name"],
+        frontDefault: json["pokemon_v2_pokemonsprites"][0]["sprites"],
+      );
 }

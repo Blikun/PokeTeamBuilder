@@ -22,7 +22,8 @@ class PokedexController extends GetxController {
   void getIndex() async {
     PokeIndex pokeIndex = await apiClient.pokeIndex();
     state.index.value = pokeIndex;
-    log("Indexed ${state.index.value!.count} pokemon");
+    log("Indexed ${state.index.value!.dexIndex!.length} pokemon");
+    update();
   }
 
 

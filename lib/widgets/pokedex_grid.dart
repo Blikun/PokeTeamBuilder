@@ -4,15 +4,14 @@ import 'package:get/get.dart';
 import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
 import 'package:poke_team_builder/controllers/pokedex_controller/pokedex_controller.dart';
 
-import '../constants.dart';
 
 
-class CardGrid extends StatelessWidget {
-  CardGrid({
-    super.key,
+class IndexGrid extends StatelessWidget {
+  final int count;
+  IndexGrid({
+    super.key, required this.count,
   });
 
-  final pokedexController = Get.find<PokedexController>();
   final displayController = Get.find<DisplayController>();
 
   @override
@@ -25,16 +24,16 @@ class CardGrid extends StatelessWidget {
               child: GridView.builder(
                 controller: displayController.scrollController,
                 padding: const EdgeInsets.all(5),
-                itemCount: pokedexController.state.pokedex.value.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                itemCount: controller.state.index.value?.dexIndex?.length ?? 0,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 5,
                   crossAxisSpacing: 5,
-                  crossAxisCount: 3,
+                  crossAxisCount: count,
                 ),
                 itemBuilder: (context, index) {
                   return Animate(
                     effects: const [FadeEffect()],
-                    child: Image.network(pokedexController.state.pokedex.value[index]!.sprites!.dreamWorld ?? ""),
+                    child: Image.network(controller.state.index.value!.dexIndex![index].frontDefault ?? ""),
                   );
                 },
               ),
