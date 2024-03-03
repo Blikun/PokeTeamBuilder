@@ -8,7 +8,7 @@ part 'display_state.dart';
 class DisplayController extends GetxController {
   final DisplayState state;
   DisplayController(this.state);
-  ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -17,14 +17,19 @@ class DisplayController extends GetxController {
   }
 
   void scrollListener() async {
-    state.scrollController.addListener(() {
-      if (state.scrollController.position.maxScrollExtent <=
-          state.scrollController.position.pixels &&
-          state.scrollController.position.userScrollDirection ==
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent <=
+          scrollController.position.pixels &&
+          scrollController.position.userScrollDirection ==
               ScrollDirection.reverse) {
         //paginateLibrary();
       }
     });
+  }
+
+  void changeSwatch(MaterialColor color){
+    state.appSwatch.value = color;
+    update();
   }
   
 }

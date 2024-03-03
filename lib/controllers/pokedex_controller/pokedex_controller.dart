@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:poke_team_builder/api_client/api_client.dart';
 
-import '../../models/pokemon_index.dart';
+import '../../models/index_model.dart';
 import '../../models/pokemon_model.dart';
 
 part 'pokedex_state.dart';
@@ -20,13 +20,22 @@ class PokedexController extends GetxController {
   }
 
   void getIndex() async {
-    PokeIndex pokeIndex = await apiClient.pokeIndex();
+    IndexModel pokeIndex = await apiClient.pokeIndex();
     state.index.value = pokeIndex;
     log("Indexed ${state.index.value!.dexIndex!.length} pokemon");
     update();
+    indexToPokedex(pokeIndex);
   }
 
+  void indexToPokedex(IndexModel pokeIndex){
+    List<PokemonModel> pokemonModelList = [];
 
+    for (var indexEntry in pokeIndex.dexIndex!) {
+      PokemonModel pokemonModel = PokemonModel(id: indexEntry.id, name: indexEntry.name, types: indexEntry.types);
+      pokemonModelList.add(pokemonModel);
+    }
+    updatePokedex(pokemonModelList);
+  }
 
   void updatePokedex(List<PokemonModel?> newPokemons) {
     final pokedex = state.pokedex.value;
@@ -37,5 +46,6 @@ class PokedexController extends GetxController {
         pokedex.add(newPokemon);
       }
     }
+    state.pokedex.value = pokedex;
   }
 }

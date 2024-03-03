@@ -1,6 +1,7 @@
 part of "display_controller.dart";
 
 class DisplayState {
-  ScrollController scrollController = ScrollController();
+
+  Rx<MaterialColor> appSwatch = Rx<MaterialColor>(Colors.red);
 
 }

@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   get:
   flutter_animate:
+
   google_fonts:
   lottie:
   responsive_sizer: ^3.3.0+1

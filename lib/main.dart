@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:poke_team_builder/api_client/api_client.dart';
 import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
 import 'package:poke_team_builder/controllers/pokedex_controller/pokedex_controller.dart';
@@ -20,16 +21,24 @@ class MyApp extends StatelessWidget {
     return ResponsiveSizer(
       builder: (context, orientation, screen) {
         ApiClient apiClient = ApiClient();
-        Get.put(PokedexController(apiClient, PokedexState()));
-        Get.put(DisplayController(DisplayState()));
-        return GetMaterialApp(
-          title: 'Poke Team Builder',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-            useMaterial3: true,
-          ),
-          home: PokedexScreen(),
+        PokedexController pokedexController = PokedexController(apiClient, PokedexState());
+        DisplayController displayController = DisplayController(DisplayState());
+        Get.lazyPut(() => pokedexController);
+        Get.lazyPut(() => displayController);
+
+        return GetX<DisplayController>(
+          builder: (controller) {
+            return GetMaterialApp(
+              title: 'Poke Team Builder',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSwatch(
+                    primarySwatch: controller.state.appSwatch.value),
+                useMaterial3: true,
+              ),
+              home: PokedexScreen(),
+            );
+          },
         );
       },
     );

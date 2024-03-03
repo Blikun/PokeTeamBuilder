@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
 import 'package:poke_team_builder/controllers/pokedex_controller/pokedex_controller.dart';
 
 
+import 'dex_grid_item.dart';
 
 class IndexGrid extends StatelessWidget {
   final int count;
+
   IndexGrid({
-    super.key, required this.count,
+    super.key,
+    required this.count,
   });
 
   final displayController = Get.find<DisplayController>();
@@ -26,15 +28,12 @@ class IndexGrid extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 itemCount: controller.state.index.value?.dexIndex?.length ?? 0,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 5,
-                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
                   crossAxisCount: count,
                 ),
                 itemBuilder: (context, index) {
-                  return Animate(
-                    effects: const [FadeEffect()],
-                    child: Image.network(controller.state.index.value!.dexIndex![index].frontDefault ?? ""),
-                  );
+                  return DexGridItem(dexEntry: controller.state.index.value!.dexIndex![index],);
                 },
               ),
             ),
@@ -43,4 +42,5 @@ class IndexGrid extends StatelessWidget {
       },
     );
   }
+
 }

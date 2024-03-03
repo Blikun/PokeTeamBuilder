@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:graphql/client.dart';
 
-import '../models/pokemon_index.dart';
+import '../models/index_model.dart';
 import '../models/pokemon_model.dart';
 import 'api_interface.dart';
 
@@ -22,21 +22,24 @@ class PokeApi implements API {
   }
 
   @override
-  Future<PokeIndex> pokeIndex() async {
+  Future<IndexModel> pokeIndex() async {
     try {
       final QueryOptions options = QueryOptions(
         document: gql('''
-        
-        query MyQuery {
-          pokemon_v2_pokemon(limit: 151, offset: 0) {
-            name
-            id
-          pokemon_v2_pokemonsprites {
-            sprites(path: "front_default")
+          query MyQuery {
+            pokemon_v2_pokemon(limit: 151, offset: 0) {
+              name
+              id
+              pokemon_v2_pokemonsprites {
+                sprites(path: "front_default")
+              }
+              pokemon_v2_pokemontypes {
+                pokemon_v2_type {
+                  name
+                }
               }
             }
           }
-
             '''),
       );
       final QueryResult result = await graphQLClient.query(options);

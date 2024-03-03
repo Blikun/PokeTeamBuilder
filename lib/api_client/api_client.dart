@@ -1,13 +1,13 @@
 import 'package:poke_team_builder/api_client/api_pokeapi.dart';
 
-import '../models/pokemon_index.dart';
+import '../models/index_model.dart';
 import '../models/pokemon_model.dart';
 
 
 /// API client manager can extend an [API] implementation
 class ApiClient extends PokeApi{
 
-  Future<PokeIndex> getIndex() async {
+  Future<IndexModel> getIndex() async {
     return super.pokeIndex();
   }
 
