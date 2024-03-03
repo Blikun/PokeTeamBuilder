@@ -1,4 +1,5 @@
 import 'package:poke_team_builder/api_client/api_pokeapi.dart';
+import 'package:poke_team_builder/models/generations_model.dart';
 
 import '../models/index_model.dart';
 import '../models/pokemon_model.dart';
@@ -11,14 +12,12 @@ class ApiClient extends PokeApi{
     return super.pokeIndex();
   }
 
-  Future<PokemonModel> getSinglePokemon(int page) async {
-    return super.singlePokemon(page);
+  Future<GenerationsModel> getGenerations() async {
+    return super.generations();
   }
 
-  Future<List<PokemonModel>> getPokedexPaginated(int page, int count) async {
-    List<String> searchParams = [];
-
-    return super.pokemonListPaginated(page, count, searchParams);
+  Future<PokemonModel> getSinglePokemon(int page) async {
+    return super.singlePokemon(page);
   }
 
 }

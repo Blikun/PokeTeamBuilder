@@ -1,15 +1,12 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:lottie/lottie.dart';
 import 'package:poke_team_builder/models/index_model.dart';
 
+import '../assets.dart';
 import '../constants.dart';
 
 class DexGridItem extends StatelessWidget {
   final DexEntry dexEntry;
-
   const DexGridItem({super.key, required this.dexEntry});
 
   @override
@@ -34,6 +31,22 @@ class DexGridItem extends StatelessWidget {
             Image.network(
               dexEntry.frontDefault ?? "",
               fit: BoxFit.cover,
+              errorBuilder: (BuildContext context, Object obj, StackTrace? err){
+                return  Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(Assets.substitute),
+                );
+              },
+              loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Center(child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Lottie.asset(Assets.pokeballAnim),
+                ),);
+              },
             ),
           ],
         ),

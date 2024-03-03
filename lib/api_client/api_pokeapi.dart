@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:graphql/client.dart';
+import 'package:poke_team_builder/models/generations_model.dart';
 
 import '../models/index_model.dart';
 import '../models/pokemon_model.dart';
@@ -59,9 +60,20 @@ class PokeApi implements API {
     }
   }
 
+
   @override
   Future<List<PokemonModel>> pokemonListPaginated(
       int limit, int offset, List<String> searchParams) async {
     throw UnimplementedError();
+  }
+
+  @override
+  Future<GenerationsModel> generations() async {
+    try {
+      final response = await dio.get("/generation/");
+      return generationsFromPokeApi(response.data);
+    } catch (e) {
+      throw Exception('Failed to get gens - $e');
+    }
   }
 }

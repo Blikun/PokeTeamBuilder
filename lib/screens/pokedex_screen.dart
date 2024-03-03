@@ -1,58 +1,81 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
+import 'package:poke_team_builder/widgets/pokedex_screen/PokedexPanel.dart';
 
-import '../widgets/pokedex_grid.dart';
+import '../widgets/dex_grid.dart';
 
 
 class PokedexScreen extends GetResponsiveView {
   PokedexScreen({super.key});
+
   final DisplayController displayController = Get.find<DisplayController>();
 
-///todo: securePrefs
-  ///
-  /// Esta pantalla mostrará la información del Pokémon seleccionado. El diseño es de tu elección, pero necesitamos enseñar todos estos datos:
-  ///
-  /// Id.
-  /// Nombre.
-  /// Foto.
-  /// Altura y peso (en la unidad que devuelve la API, no es necesario hacer conversiones a centímetros o kilogramos).
-  /// Tipos del Pokémon.
-  /// Además de todos esos datos, deberemos poder añadir o quitar el Pokémon como capturado. Los Pokémon capturados deben de ser almacenados localmente en el teléfono. La manera en la que almacenes los datos es de tu elección.
-  ///
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: displayController.state.appSwatch.value.primary,
+    );
+  }
 
-  //todo: meter un topbar
-  @override
-  Widget phone(){
-    return  Scaffold(
+  Drawer _buildDrawer(double width) {
+    return Drawer(
+      child: Container(
+        width: width,
+        color: displayController.state.appSwatch.value.primary,
+      ),
+    );
+  }
 
-      backgroundColor: Colors.black87,
-      body: IndexGrid(count: 3),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-      }),
+
+
+  FloatingActionButton _buildFloatingActionButton() {
+    return FloatingActionButton(
+      onPressed: () async {
+        displayController.changeSwatch(ColorScheme.fromSwatch(primarySwatch: Colors.blue));
+      },
     );
   }
 
   @override
-  Widget desktop(){
-    return  Scaffold(
-      appBar: AppBar(title: const Text('appbar'),),
-      backgroundColor: Colors.black87,
-      body: IndexGrid(count: 10),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        displayController.changeSwatch(Colors.blue);
-      }),
+  Widget phone() {
+    return Scaffold(
+      appBar: _buildAppBar(),
+      drawer: _buildDrawer(350),
+      backgroundColor: displayController.state.appSwatch.value.primary.withOpacity(0.1),
+      body: Expanded(child: DexGrid(count: 3)),
+      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
   @override
-  Widget tablet(){
-    return  Scaffold(
-      backgroundColor: Colors.black87,
-      body:IndexGrid(count: 6),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-      }),
+  Widget desktop() {
+    return Scaffold(
+      appBar: _buildAppBar(),
+      drawer: _buildDrawer(350),
+      backgroundColor: displayController.state.appSwatch.value.primary.withOpacity(0.1),
+      body: Row(
+        children: [
+          Expanded(child: DexGrid(count: 10)),
+          PokedexPanel(width: 300,)
+        ],
+      ),
+      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
+  @override
+  Widget tablet() {
+    return Scaffold(
+      appBar: _buildAppBar(),
+      drawer: _buildDrawer(400),
+      backgroundColor: displayController.state.appSwatch.value.primary.withOpacity(0.1),
+      body: Row(
+        children: [
+          Expanded(child: DexGrid(count: 6)),
+        ],
+      ),
+      floatingActionButton: _buildFloatingActionButton(),
+    );
+  }
 }

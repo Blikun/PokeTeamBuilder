@@ -27,8 +27,8 @@ class DisplayController extends GetxController {
     });
   }
 
-  void changeSwatch(MaterialColor color){
-    state.appSwatch.value = color;
+  void changeSwatch(ColorScheme swatch){
+    state.appSwatch.value = swatch;
     update();
   }
   

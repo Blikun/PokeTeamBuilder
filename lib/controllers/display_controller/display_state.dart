@@ -1,7 +1,6 @@
 part of "display_controller.dart";
 
 class DisplayState {
-
-  Rx<MaterialColor> appSwatch = Rx<MaterialColor>(Colors.red);
-
+  Rx<ColorScheme> appSwatch =
+      Rx<ColorScheme>(ColorScheme.fromSwatch(primarySwatch: Colors.red));
 }

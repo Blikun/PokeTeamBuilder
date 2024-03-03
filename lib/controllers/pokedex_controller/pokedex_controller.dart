@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:poke_team_builder/api_client/api_client.dart';
+import 'package:poke_team_builder/models/generations_model.dart';
 
 import '../../models/index_model.dart';
 import '../../models/pokemon_model.dart';
@@ -15,26 +16,40 @@ class PokedexController extends GetxController {
 
   @override
   void onInit() {
-    getIndex();
+    initializeDex();
     super.onInit();
   }
 
-  void getIndex() async {
+
+
+  void initializeDex() async {
+    GenerationsModel generations = await getGenerations();
+    getIndex(generations.gen!.first);
+  }
+
+  void getIndex(Gen gen) async {
     IndexModel pokeIndex = await apiClient.pokeIndex();
     state.index.value = pokeIndex;
     log("Indexed ${state.index.value!.dexIndex!.length} pokemon");
-    update();
     indexToPokedex(pokeIndex);
+    update();
+  }
+
+  Future<GenerationsModel> getGenerations() async {
+    GenerationsModel generations = await apiClient.generations();
+    state.generations.value = generations;
+    log("got generations");
+    return generations;
   }
 
   void indexToPokedex(IndexModel pokeIndex){
     List<PokemonModel> pokemonModelList = [];
-
     for (var indexEntry in pokeIndex.dexIndex!) {
       PokemonModel pokemonModel = PokemonModel(id: indexEntry.id, name: indexEntry.name, types: indexEntry.types);
       pokemonModelList.add(pokemonModel);
     }
     updatePokedex(pokemonModelList);
+    log("filling pokedex");
   }
 
   void updatePokedex(List<PokemonModel?> newPokemons) {

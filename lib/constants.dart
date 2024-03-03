@@ -4,28 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'assets.dart';
 
 class Constants {
-
   //styles
   static final TextStyle indexStyle = GoogleFonts.orbitron(
-      color:Colors.white,
+    color: Colors.white,
     fontSize: 15,
-
-      fontWeight: FontWeight.w900,
-      height: 0,
-      letterSpacing: 0,
-      wordSpacing: 0,
-
+    fontWeight: FontWeight.w900,
+    height: 0,
+    letterSpacing: 0,
+    wordSpacing: 0,
   );
 
-  static final TextStyle googleHeebo = GoogleFonts.josefinSans(
-      fontSize: 14,
-      color: Colors.black87,
-      fontWeight: FontWeight.w500,
-      height: 0,
-      letterSpacing: 0,
-      wordSpacing: 0);
-
-  //colors
   static const Map<PokeType, Color> typeColors = {
     PokeType.normal: Color.fromRGBO(167, 167, 120, 1.0),
     PokeType.grass: Color.fromRGBO(119, 198, 80, 1.0),
@@ -68,6 +56,26 @@ class Constants {
     PokeType.water: Assets.waterBg,
   };
 
+  static const Map<PokeType, String> typeIcons = {
+    PokeType.fire: Assets.iconFire,
+    PokeType.bug: Assets.iconBug,
+    PokeType.dark: Assets.iconDark,
+    PokeType.dragon: Assets.iconDragon,
+    PokeType.electric: Assets.iconElectric,
+    PokeType.fairy: Assets.iconFairy,
+    PokeType.fighting: Assets.iconFight,
+    PokeType.flying: Assets.iconFlying,
+    PokeType.ghost: Assets.iconGhost,
+    PokeType.grass: Assets.iconGrass,
+    PokeType.ground: Assets.iconGround,
+    PokeType.ice: Assets.iconIce,
+    PokeType.normal: Assets.iconNormal,
+    PokeType.poison: Assets.iconPoison,
+    PokeType.psychic: Assets.iconPsychic,
+    PokeType.rock: Assets.iconRock,
+    PokeType.steel: Assets.iconSteel,
+    PokeType.water: Assets.iconWater,
+  };
 
 }
 
