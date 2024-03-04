@@ -11,7 +11,7 @@ class DexGrid extends StatelessWidget {
 
   DexGrid({super.key, required this.count});
 
-  final searchController = Get.find<SearchFilterController>();
+  final searchController = Get.find<FilterSearchController>();
   final pokedexController = Get.find<PokedexController>();
   final displayController = Get.find<DisplayController>();
 

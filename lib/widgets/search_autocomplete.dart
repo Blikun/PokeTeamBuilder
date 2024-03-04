@@ -12,8 +12,8 @@ class SearchAutocompleteField extends StatelessWidget {
   final Function(String) onTapCallback;
 
   set textController(TextEditingController controller) {}
-  final SearchFilterController searchController =
-      Get.find<SearchFilterController>();
+  final FilterSearchController searchController =
+      Get.find<FilterSearchController>();
   final DisplayController displayController = Get.find<DisplayController>();
 
   @override
@@ -75,6 +75,7 @@ class SearchAutocompleteField extends StatelessWidget {
             ),
             filled: true,
             hintText: "Search for pokemon",
+            hintStyle: const TextStyle(height: 4.2),
             prefixIcon: Icon(
               Icons.search_rounded,
               color: displayController.state.appSwatch.value.primary,

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         PokedexController pokedexController =
             PokedexController(apiClient, PokedexState());
         DisplayController displayController = DisplayController(DisplayState());
-        SearchFilterController searchFilterController = SearchFilterController(
+        FilterSearchController searchFilterController = FilterSearchController(
           state: SearchFilterState(),
           pokedexController: pokedexController,
         );

@@ -10,11 +10,11 @@ import '../../models/search_model.dart';
 
 part 'search_state.dart';
 
-class SearchFilterController extends GetxController {
+class FilterSearchController extends GetxController {
   final SearchFilterState state;
   final PokedexController pokedexController;
 
-  SearchFilterController({
+  FilterSearchController({
     required this.state,
     required this.pokedexController,
   });
@@ -22,7 +22,7 @@ class SearchFilterController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Listens to changes in searchParameters
+    // Listens to changes in searchParameters state
     ever(state.searchParameters, (_) => onSearchParametersChanged());
   }
 
@@ -30,14 +30,39 @@ class SearchFilterController extends GetxController {
     log("Search Parameters Changed");
     IndexModel index = pokedexController.state.index.value!;
     List<DexEntry> resultList = [];
+
     for (DexEntry entry in index.dexIndex!) {
-      if (entry.name!
-          .toLowerCase()
-          .contains(state.searchParameters.value!.name!)) {
+      bool? matchesName;
+      bool? matchesType;
+      if (state.searchParameters.value?.name != null) {
+        matchesName = false;
+        if (entry.name!.toLowerCase().contains(state.searchParameters.value!.name!)){
+          matchesName = true;
+        }
+      }
+      if (state.searchParameters.value?.pokeTypeMain != null) {
+        matchesType = false;
+        if(entry.types![0] == state.searchParameters.value!.pokeTypeMain){
+          matchesType = true;
+        }
+      }
+      if ((matchesName ?? true) && (matchesType ?? true)) {
         resultList.add(entry);
       }
     }
     state.searchResults.value = IndexModel(dexIndex: resultList);
+  }
+
+  void changeSearchParameters(SearchModel newParameters) {
+    SearchModel? oldParameters = state.searchParameters.value;
+
+    SearchModel updatedParams = SearchModel(
+      name: newParameters.name ?? oldParameters?.name,
+      id: newParameters.id ?? oldParameters?.id,
+      pokeTypeMain: newParameters.pokeTypeMain ?? oldParameters?.pokeTypeMain,
+      pokeTypeSub: newParameters.pokeTypeSub ?? oldParameters?.pokeTypeSub,
+    );
+    state.searchParameters.value = updatedParams;
   }
 
   Iterable<String> getSearchOptions(TextEditingValue textEditingValue, {required int count}) {
@@ -52,18 +77,4 @@ class SearchFilterController extends GetxController {
     }
     return optionStrings.take(count);
   }
-
-  void changeSearchParameters(SearchModel parameters) {
-    SearchModel? currentParams = state.searchParameters.value;
-
-    SearchModel updatedParams = SearchModel(
-      name: parameters.name ?? currentParams?.name,
-      id: parameters.id ?? currentParams?.id,
-      pokeTypeMain: parameters.pokeTypeMain ?? currentParams?.pokeTypeMain,
-      pokeTypeSub: parameters.pokeTypeSub ?? currentParams?.pokeTypeSub,
-    );
-
-    state.searchParameters.value = updatedParams;
-  }
-
 }
