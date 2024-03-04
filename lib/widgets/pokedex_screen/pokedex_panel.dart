@@ -47,7 +47,7 @@ class PokedexPanel extends StatelessWidget {
                       color: Colors.white),
                 ),
                 const Divider(),
-                TypesFilterWrap(size: mobile ? 30 : 50),
+                TypesFilterWrap(size: 50),
                 const Divider(
                   endIndent: 60,
                   indent: 60,

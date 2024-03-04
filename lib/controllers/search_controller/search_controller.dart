@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:poke_team_builder/constants.dart';
 import 'package:poke_team_builder/controllers/pokedex_controller/pokedex_controller.dart';
 
 import '../../models/index_model.dart';
@@ -56,11 +57,21 @@ class FilterSearchController extends GetxController {
   void changeSearchParameters(SearchModel newParameters) {
     SearchModel? oldParameters = state.searchParameters.value;
 
+    PokeType? updatedPokeTypeMain = newParameters.pokeTypeMain;
+    if ((newParameters.pokeTypeMain == oldParameters?.pokeTypeMain)) {
+      updatedPokeTypeMain = null;
+    }
+
+    PokeType? updatedPokeTypeSub = newParameters.pokeTypeSub;
+    if ((newParameters.pokeTypeSub == oldParameters?.pokeTypeSub)) {
+      updatedPokeTypeSub = null;
+    }
+
     SearchModel updatedParams = SearchModel(
       name: newParameters.name ?? oldParameters?.name,
       id: newParameters.id ?? oldParameters?.id,
-      pokeTypeMain: newParameters.pokeTypeMain ?? oldParameters?.pokeTypeMain,
-      pokeTypeSub: newParameters.pokeTypeSub ?? oldParameters?.pokeTypeSub,
+      pokeTypeMain: newParameters.pokeTypeMain != null ? updatedPokeTypeMain : oldParameters?.pokeTypeMain,
+      pokeTypeSub: updatedPokeTypeSub ?? oldParameters?.pokeTypeMain,
     );
     state.searchParameters.value = updatedParams;
   }
