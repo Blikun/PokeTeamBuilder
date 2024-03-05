@@ -18,44 +18,23 @@ class DexGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final searchState = searchController.state;
       final pokedexState = pokedexController.state;
       return Column(
         children: [
-          if (searchState.searchResults.value == null) ...{
             Expanded(
               child: GridView.builder(
                   controller: displayController.scrollController,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  itemCount: pokedexState.index.value?.dexIndex?.length ?? 0,
+                  itemCount: pokedexState.shownIndex.value?.dexIndex?.length ?? 0,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     mainAxisSpacing: 15,
                     crossAxisSpacing: 15,
                     crossAxisCount: count,
                   ),
                   itemBuilder: (context, index) => DexGridItem(
-                      dexEntry: pokedexState.index.value!.dexIndex![index])),
+                      dexEntry: pokedexState.shownIndex.value!.dexIndex![index])),
             ),
-          },
-          if (searchState.searchResults.value != null) ...{
-            Expanded(
-              child: GridView.builder(
-                  controller: displayController.scrollController,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  itemCount:
-                      searchState.searchResults.value?.dexIndex?.length ?? 0,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisSpacing: 15,
-                    crossAxisSpacing: 15,
-                    crossAxisCount: count,
-                  ),
-                  itemBuilder: (context, index) => DexGridItem(
-                      dexEntry:
-                          searchState.searchResults.value!.dexIndex![index])),
-            ),
-          }
         ],
       );
     });

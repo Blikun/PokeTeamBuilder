@@ -12,6 +12,7 @@ part 'pokedex_state.dart';
 class PokedexController extends GetxController {
   final PokedexState state;
   final ApiClient apiClient;
+
   PokedexController(this.apiClient, this.state);
 
   @override
@@ -20,17 +21,22 @@ class PokedexController extends GetxController {
     super.onInit();
   }
 
-
-
   void initializeDex() async {
+    int startingGen = 1; // default at only generation 1
     GenerationsModel generations = await getGenerations();
-    getIndex(generations.gen!.first);
+    getIndex(generations.genList![startingGen-1]);
   }
 
   void getIndex(Gen gen) async {
-    IndexModel pokeIndex = await apiClient.pokeIndex();
-    state.index.value = pokeIndex;
-    log("Indexed ${state.index.value!.dexIndex!.length} pokemon");
+    state.generations.value!.genList![gen.number! - 1] =
+        await updateNeededGensCount(gen);
+    IndexModel pokeIndex = await apiClient.pokeIndex(gen);
+    state.indexRepository.value?.dexIndex == null
+        ? state.indexRepository.value = pokeIndex
+        : state.indexRepository.value!.dexIndex!
+            .addAll(pokeIndex.dexIndex!.toList());
+    state.shownIndex.value = pokeIndex;
+    log("Indexed ${state.indexRepository.value!.dexIndex!.length} pokemon");
     indexToPokedex(pokeIndex);
     update();
   }
@@ -42,10 +48,29 @@ class PokedexController extends GetxController {
     return generations;
   }
 
-  void indexToPokedex(IndexModel pokeIndex){
+  Future<Gen> updateNeededGensCount(Gen gen) async {
+    if (gen.count == null || gen.offset == null) {
+      int count = await apiClient.getCountForGeneration(gen.number!);
+      int offset = 0;
+      for (int prevGenCount = gen.number! - 1;
+          prevGenCount >= 1;
+          prevGenCount--) {
+        int pastCount = await apiClient.getCountForGeneration(prevGenCount);
+        offset = offset + pastCount;
+        state.generations.value!.genList![prevGenCount].count = pastCount;
+        state.generations.value!.genList![prevGenCount].offset = offset;
+      }
+      gen.count = count;
+      gen.offset = offset;
+    }
+    return gen;
+  }
+
+  void indexToPokedex(IndexModel pokeIndex) {
     List<PokemonModel> pokemonModelList = [];
     for (var indexEntry in pokeIndex.dexIndex!) {
-      PokemonModel pokemonModel = PokemonModel(id: indexEntry.id, name: indexEntry.name, types: indexEntry.types);
+      PokemonModel pokemonModel = PokemonModel(
+          id: indexEntry.id, name: indexEntry.name, types: indexEntry.types);
       pokemonModelList.add(pokemonModel);
     }
     updatePokedex(pokemonModelList);

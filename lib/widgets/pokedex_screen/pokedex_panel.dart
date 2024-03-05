@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
 import 'package:poke_team_builder/controllers/search_controller/search_controller.dart';
-import 'package:poke_team_builder/models/search_model.dart';
+import 'package:poke_team_builder/models/filter_model.dart';
 import 'package:poke_team_builder/widgets/pokedex_screen/types_filter_wrap.dart';
 import 'package:poke_team_builder/widgets/search_autocomplete.dart';
 
@@ -33,7 +33,7 @@ class PokedexPanel extends StatelessWidget {
                   height: 50,
                   child: SearchAutocompleteField(onTapCallback: (option) {
                     searchController
-                        .changeSearchParameters(SearchModel(name: option));
+                        .changeSearchParameters(FilterModel(name: option));
                   }),
                 )),
             Column(

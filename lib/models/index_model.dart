@@ -6,16 +6,20 @@ IndexModel pokeIndexFromPokeGQL(Map<String, dynamic> json) =>
 
 class IndexModel {
   final List<DexEntry>? dexIndex;
+  bool ascending;
 
   IndexModel({
     this.dexIndex,
+    this.ascending = false,
   });
 
   IndexModel copyWith({
     List<DexEntry>? dexIndex,
+    required bool ascending,
   }) =>
       IndexModel(
         dexIndex: dexIndex ?? this.dexIndex,
+        ascending: ascending,
       );
 
   factory IndexModel.fromPokeGQL(Map<String, dynamic> indexData) => IndexModel(

@@ -1,11 +1,11 @@
 
 import '../constants.dart';
 
-class SearchModel {
+class FilterModel {
   final String? name;
   final int? id;
   final PokeType? pokeTypeMain;
   final PokeType? pokeTypeSub;
-  SearchModel({this.name, this.id, this.pokeTypeMain, this.pokeTypeSub});
+  FilterModel({this.name, this.id, this.pokeTypeMain, this.pokeTypeSub});
 }
 

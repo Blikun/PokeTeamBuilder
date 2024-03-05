@@ -7,6 +7,7 @@ import '../constants.dart';
 
 class DexGridItem extends StatelessWidget {
   final DexEntry dexEntry;
+
   const DexGridItem({super.key, required this.dexEntry});
 
   @override
@@ -22,8 +23,21 @@ class DexGridItem extends StatelessWidget {
               padding: const EdgeInsets.all(15),
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black,width: 10,strokeAlign: BorderSide.strokeAlignCenter),
-                  borderRadius: BorderRadius.circular(90),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Constants.typeColors.entries
+                            .firstWhere((element) =>
+                                element.key == dexEntry.types?.first)
+                            .value.withOpacity(0.40),
+                        blurRadius: 15,
+                        spreadRadius: 10,
+                       )
+                  ],
+                  border: Border.all(
+                      color: Colors.black,
+                      width: 8,
+                      strokeAlign: BorderSide.strokeAlignCenter),
                   image: buildDecorationImage(dexEntry),
                 ),
               ),
@@ -31,21 +45,24 @@ class DexGridItem extends StatelessWidget {
             Image.network(
               dexEntry.frontDefault ?? "",
               fit: BoxFit.cover,
-              errorBuilder: (BuildContext context, Object obj, StackTrace? err){
-                return  Padding(
+              errorBuilder:
+                  (BuildContext context, Object obj, StackTrace? err) {
+                return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image.asset(Assets.substitute),
                 );
               },
               loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
+                  ImageChunkEvent? loadingProgress) {
                 if (loadingProgress == null) {
                   return child;
                 }
-                return Center(child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Lottie.asset(Assets.pokeballAnim),
-                ),);
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Lottie.asset(Assets.pokeballAnim),
+                  ),
+                );
               },
             ),
           ],
@@ -70,7 +87,6 @@ class DexGridItem extends StatelessWidget {
               child: Text(dexEntry.name?.toUpperCase() ?? "",
                   style: Constants.indexStyle, maxLines: 1),
             )),
-
       ],
     );
   }
@@ -78,9 +94,12 @@ class DexGridItem extends StatelessWidget {
   DecorationImage buildDecorationImage(
     DexEntry dexEntry,
   ) {
-    return DecorationImage(image: AssetImage(Constants.typeBackgrounds.entries
-        .firstWhere((element) => element.key == dexEntry.types![0])
-        .value, ),fit: BoxFit.fill);
-
+    return DecorationImage(
+        image: AssetImage(
+          Constants.typeBackgrounds.entries
+              .firstWhere((element) => element.key == dexEntry.types![0])
+              .value,
+        ),
+        fit: BoxFit.fill);
   }
 }

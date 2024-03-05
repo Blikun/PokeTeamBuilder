@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -22,7 +24,7 @@ class DisplayController extends GetxController {
           scrollController.position.pixels &&
           scrollController.position.userScrollDirection ==
               ScrollDirection.reverse) {
-        //paginateLibrary();
+        log("paginate");
       }
     });
   }

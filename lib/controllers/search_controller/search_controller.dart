@@ -7,17 +7,17 @@ import 'package:poke_team_builder/constants.dart';
 import 'package:poke_team_builder/controllers/pokedex_controller/pokedex_controller.dart';
 
 import '../../models/index_model.dart';
-import '../../models/search_model.dart';
+import '../../models/filter_model.dart';
 
 part 'search_state.dart';
 
 class FilterSearchController extends GetxController {
   final SearchFilterState state;
-  final PokedexController pokedexController;
+  final PokedexState pokedexState;
 
   FilterSearchController({
     required this.state,
-    required this.pokedexController,
+    required this.pokedexState,
   });
 
   @override
@@ -29,7 +29,7 @@ class FilterSearchController extends GetxController {
 
   void onSearchParametersChanged() {
     log("Search Parameters Changed");
-    IndexModel index = pokedexController.state.index.value!;
+    IndexModel index = pokedexState.indexRepository.value!;
     List<DexEntry> resultList = [];
 
     for (DexEntry entry in index.dexIndex!) {
@@ -51,11 +51,11 @@ class FilterSearchController extends GetxController {
         resultList.add(entry);
       }
     }
-    state.searchResults.value = IndexModel(dexIndex: resultList);
+    pokedexState.shownIndex.value = IndexModel(dexIndex: resultList);
   }
 
-  void changeSearchParameters(SearchModel newParameters) {
-    SearchModel? oldParameters = state.searchParameters.value;
+  void changeSearchParameters(FilterModel newParameters) {
+    FilterModel? oldParameters = state.searchParameters.value;
 
     PokeType? updatedPokeTypeMain = newParameters.pokeTypeMain;
     if ((newParameters.pokeTypeMain == oldParameters?.pokeTypeMain)) {
@@ -67,7 +67,7 @@ class FilterSearchController extends GetxController {
       updatedPokeTypeSub = null;
     }
 
-    SearchModel updatedParams = SearchModel(
+    FilterModel updatedParams = FilterModel(
       name: newParameters.name ?? oldParameters?.name,
       id: newParameters.id ?? oldParameters?.id,
       pokeTypeMain: newParameters.pokeTypeMain != null ? updatedPokeTypeMain : oldParameters?.pokeTypeMain,
@@ -77,7 +77,7 @@ class FilterSearchController extends GetxController {
   }
 
   Iterable<String> getSearchOptions(TextEditingValue textEditingValue, {required int count}) {
-    IndexModel index = pokedexController.state.index.value!;
+    IndexModel index = pokedexState.indexRepository.value!;
     List<String> optionStrings = [];
     for (DexEntry entry in index.dexIndex!) {
       if (entry.name!
@@ -88,4 +88,31 @@ class FilterSearchController extends GetxController {
     }
     return optionStrings.take(count);
   }
+
+  void orderIndexAlphabetically() {
+    final ascending = pokedexState.shownIndex.value!.ascending;
+    final dexIndex = pokedexState.shownIndex.value!.dexIndex;
+    dexIndex!.sort((a, b) {
+      if (ascending) {
+        return a.name!.compareTo(b.name!);
+      } else {
+        return b.name!.compareTo(a.name!);
+      }
+    });
+    pokedexState.shownIndex.value = IndexModel(dexIndex: dexIndex, ascending: !ascending);
+    update();
+  }
+
+  void orderIndexById() {
+    final ascending = pokedexState.shownIndex.value!.ascending;
+    final dexIndex = pokedexState.shownIndex.value!.dexIndex;
+    if (ascending) {
+      dexIndex!.sort((a, b) => a.id.compareTo(b.id));
+    } else {
+      dexIndex!.sort((a, b) => b.id.compareTo(a.id));
+    }
+    pokedexState.shownIndex.value = IndexModel(dexIndex: dexIndex, ascending: !ascending);
+    update(); // Notify listeners about the update
+  }
+
 }

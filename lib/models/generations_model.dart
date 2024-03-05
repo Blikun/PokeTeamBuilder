@@ -1,47 +1,55 @@
-
 GenerationsModel generationsFromPokeApi(Map<String, dynamic> json) => GenerationsModel.fromJson(json);
 
 class GenerationsModel {
-  final List<Gen>? gen;
+  final List<Gen>? genList;
 
   GenerationsModel({
-    this.gen,
+    this.genList,
   });
 
-  GenerationsModel copyWith({
-    List<Gen>? gen,
-  }) =>
-      GenerationsModel(
-        gen: gen ?? this.gen,
-      );
+  factory GenerationsModel.fromJson(Map<String, dynamic> json) {
+    if (json["results"] == null) {
+      return GenerationsModel(genList: []);
+    }
 
-  factory GenerationsModel.fromJson(Map<String, dynamic> json) => GenerationsModel(
-    gen: json["results"] == null ? [] : List<Gen>.from(json["results"]!.map((x) => Gen.fromJson(x))),
-  );
+    var genItems = json["results"]
+        .asMap() // as map for having key number.
+        .entries
+        .map((entry) {
+      int index = entry.key;
+      Map<String, dynamic> item = entry.value;
+      return Gen.fromJson(
+          item, index + 1); // + 1 because pokemon versions starts at 1.
+    }).toList(); // back to a list.
 
+
+    List<Gen> generations = [];
+    for(Gen gen in genItems){
+      generations.add(gen);
+    }
+
+    return GenerationsModel(genList: generations);
+  }
 }
 
 class Gen {
   final String? name;
   final String? url;
+  final int? number;
+  int? count;
+  int? offset;
 
   Gen({
     this.name,
     this.url,
+    this.number,
+    this.count,
+    this.offset,
   });
 
-  Gen copyWith({
-    String? name,
-    String? url,
-  }) =>
-      Gen(
-        name: name ?? this.name,
-        url: url ?? this.url,
+  factory Gen.fromJson(Map<String, dynamic> json, int number) => Gen(
+        name: json["name"],
+        url: json["url"],
+        number: number,
       );
-
-  factory Gen.fromJson(Map<String, dynamic> json) => Gen(
-    name: json["name"],
-    url: json["url"],
-  );
-
 }

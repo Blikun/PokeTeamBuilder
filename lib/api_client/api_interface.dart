@@ -5,7 +5,7 @@ import '../models/pokemon_model.dart';
 
 /// API requirements interface
 abstract class API {
-  Future<IndexModel> pokeIndex();
+  Future<IndexModel> pokeIndex(Gen gen);
 
   Future<PokemonModel> singlePokemon(int id);
 

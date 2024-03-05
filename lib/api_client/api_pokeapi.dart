@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:graphql/client.dart';
 import 'package:poke_team_builder/models/generations_model.dart';
@@ -23,12 +25,14 @@ class PokeApi implements API {
   }
 
   @override
-  Future<IndexModel> pokeIndex() async {
+  Future<IndexModel> pokeIndex(Gen gen) async {
+
+    log("asking for gen ${gen.number!} -> getting: ${gen.count} -> skipping: ${gen.offset}");
     try {
       final QueryOptions options = QueryOptions(
         document: gql('''
           query MyQuery {
-            pokemon_v2_pokemon(limit: 151, offset: 0) {
+            pokemon_v2_pokemon(limit: ${gen.count}, offset: ${gen.offset}) {
               name
               id
               pokemon_v2_pokemonsprites {
@@ -60,7 +64,6 @@ class PokeApi implements API {
     }
   }
 
-
   @override
   Future<List<PokemonModel>> pokemonListPaginated(
       int limit, int offset, List<String> searchParams) async {
@@ -71,9 +74,23 @@ class PokeApi implements API {
   Future<GenerationsModel> generations() async {
     try {
       final response = await dio.get("/generation/");
-      return generationsFromPokeApi(response.data);
+      GenerationsModel generations = generationsFromPokeApi(response.data);
+      return generations;
     } catch (e) {
       throw Exception('Failed to get gens - $e');
+    }
+  }
+
+  Future<int> getCountForGeneration(int generationId) async {
+    try {
+      final response = await dio.get("/generation/$generationId");
+      final data = response.data;
+      final List<dynamic> pokemonSpecies = data['pokemon_species'];
+      log("gen $generationId -> ${pokemonSpecies.length}");
+      return pokemonSpecies.length;
+    } catch (e) {
+      throw Exception(
+          'Failed to get Pokemon species count for generation $generationId - $e');
     }
   }
 }

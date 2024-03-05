@@ -4,9 +4,8 @@ import 'package:poke_team_builder/controllers/display_controller/display_control
 import 'package:poke_team_builder/controllers/search_controller/search_controller.dart';
 import 'package:poke_team_builder/widgets/pokedex_screen/pokedex_panel.dart';
 import 'package:poke_team_builder/widgets/pokedex_screen/types_filter_wrap.dart';
-import 'package:poke_team_builder/widgets/search_autocomplete.dart';
+import 'package:poke_team_builder/widgets/themed_appbar.dart';
 
-import '../models/search_model.dart';
 import '../widgets/dex_grid.dart';
 
 class PokedexScreen extends GetResponsiveView {
@@ -16,20 +15,7 @@ class PokedexScreen extends GetResponsiveView {
   final FilterSearchController searchController =
       Get.find<FilterSearchController>();
 
-  AppBar _buildAppBar({bool searchbar = false}) {
-    return AppBar(
-      backgroundColor: displayController.state.appSwatch.value.primary,
-      title: searchbar
-          ? SizedBox(
-              width: 250,
-              height: 45,
-              child: SearchAutocompleteField(onTapCallback: (option) {
-                searchController
-                    .changeSearchParameters(SearchModel(name: option));
-              }))
-          : null,
-    );
-  }
+
 
   Drawer _buildDrawer(double width) {
     return Drawer(
@@ -82,7 +68,7 @@ class PokedexScreen extends GetResponsiveView {
   @override
   Widget phone() {
     return Scaffold(
-      appBar: _buildAppBar(searchbar: true),
+      appBar: themedAppBar(searchbar: true),
       drawer: _buildDrawer(150),
       backgroundColor:
           displayController.state.appSwatch.value.primary.withOpacity(0.1),
@@ -97,7 +83,7 @@ class PokedexScreen extends GetResponsiveView {
   @override
   Widget desktop() {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: themedAppBar(),
       backgroundColor:
           displayController.state.appSwatch.value.primary.withOpacity(0.1),
       body: Row(
@@ -115,7 +101,7 @@ class PokedexScreen extends GetResponsiveView {
   @override
   Widget tablet() {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: themedAppBar(),
       backgroundColor:
           displayController.state.appSwatch.value.primary.withOpacity(0.1),
       body: Row(

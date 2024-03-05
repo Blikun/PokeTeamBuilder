@@ -7,7 +7,7 @@ import 'package:poke_team_builder/widgets/themed_button.dart';
 
 import '../../constants.dart';
 import '../../controllers/search_controller/search_controller.dart';
-import '../../models/search_model.dart';
+import '../../models/filter_model.dart';
 
 class TypesFilterWrap extends StatelessWidget {
   final double size;
@@ -39,7 +39,7 @@ class TypesFilterWrap extends StatelessWidget {
                       .withOpacity(0.5),
                   onTap: () {
                     searchController.changeSearchParameters(
-                        SearchModel(pokeTypeMain: element.key));
+                        FilterModel(pokeTypeMain: element.key));
                   },
                 ),
               ),

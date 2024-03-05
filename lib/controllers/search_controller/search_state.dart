@@ -2,9 +2,7 @@ part of 'search_controller.dart';
 
 class SearchFilterState {
 
-    Rx<SearchModel?> searchParameters = Rx<SearchModel?>(null);
+    Rx<FilterModel?> searchParameters = Rx<FilterModel?>(null);
 
-    /// Search results repository
-    Rx<IndexModel?> searchResults = Rx<IndexModel?>(null);
 
 }
