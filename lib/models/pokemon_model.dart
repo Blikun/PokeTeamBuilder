@@ -1,11 +1,10 @@
-import 'dart:convert';
 
 import 'package:poke_team_builder/constants.dart';
 
 import '../utils.dart';
 
-PokemonModel pokemonModelFromPokeApi(String jsonString) =>
-    PokemonModel.fromPokeApiJson(json.decode(jsonString));
+PokemonModel pokemonModelFromPokeApi(Map<String, dynamic> json) =>
+    PokemonModel.fromPokeApiJson(json);
 
 class PokemonModel {
   final List<String>? abilities;

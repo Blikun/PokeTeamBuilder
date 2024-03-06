@@ -17,14 +17,14 @@ class PokedexController extends GetxController {
 
   @override
   void onInit() {
-    initializeDex();
+    if (state.indexRepository.value == null) initializeDex();
     super.onInit();
   }
 
   void initializeDex() async {
-    int startingGen = 1; // default at only generation 1
+    int startingGen = 1; // default at gen 1
     GenerationsModel generations = await getGenerations();
-    getIndex(generations.genList![startingGen-1]);
+    getIndex(generations.genList![startingGen - 1]);
   }
 
   void getIndex(Gen gen) async {
@@ -77,6 +77,11 @@ class PokedexController extends GetxController {
     log("filling pokedex");
   }
 
+  void updateShownPokemon(IndexModel pokeIndex) {
+    state.shownIndex.value = pokeIndex;
+    log("updated shown pokemon index");
+  }
+
   void updatePokedex(List<PokemonModel?> newPokemons) {
     final pokedex = state.pokedex.value;
     for (var newPokemon in newPokemons) {
@@ -87,5 +92,18 @@ class PokedexController extends GetxController {
       }
     }
     state.pokedex.value = pokedex;
+  }
+
+  void getPokemonDetails(DexEntry dexEntry) async {
+    PokemonModel updatedPokemon = await apiClient.getSinglePokemon(dexEntry.id);
+    int indexAtPokedex =
+        state.pokedex.value.indexWhere((pokemon) => pokemon?.id == dexEntry.id);
+
+    if (indexAtPokedex != -1) {
+      state.pokedex.value[indexAtPokedex] = updatedPokemon;
+    } else {
+      state.pokedex.value.add(updatedPokemon);
+    }
+    state.pokedex.refresh();
   }
 }

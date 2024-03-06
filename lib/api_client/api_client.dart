@@ -20,8 +20,8 @@ class ApiClient extends PokeApi{
     return super.getCountForGeneration(generationId);
   }
 
-  Future<PokemonModel> getSinglePokemon(int page) async {
-    return super.singlePokemon(page);
+  Future<PokemonModel> getSinglePokemon(int id) async {
+    return super.singlePokemon(id);
   }
 
 }

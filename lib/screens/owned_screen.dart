@@ -4,21 +4,23 @@ import 'package:poke_team_builder/controllers/display_controller/display_control
 import 'package:poke_team_builder/controllers/navigation_controller/navigation_controller.dart';
 import 'package:poke_team_builder/controllers/pokedex_controller/pokedex_controller.dart';
 import 'package:poke_team_builder/controllers/search_controller/search_controller.dart';
+import 'package:poke_team_builder/controllers/team_controller/team_controller.dart';
 import 'package:poke_team_builder/widgets/pokedex_screen/pokedex_panel.dart';
 import 'package:poke_team_builder/widgets/pokedex_screen/types_filter_wrap.dart';
 import 'package:poke_team_builder/widgets/themed_appbar.dart';
 
 import '../widgets/dex_grid.dart';
 
-class PokedexScreen extends GetResponsiveView {
-  PokedexScreen({super.key});
+class OwnedScreen extends GetResponsiveView {
+  OwnedScreen({super.key});
 
   final DisplayController displayController = Get.find<DisplayController>();
   final PokedexController pokedexController = Get.find<PokedexController>();
+  final TeamController teamController = Get.find<TeamController>();
   final NavigationController navigationController =
-  Get.find<NavigationController>();
+      Get.find<NavigationController>();
   final FilterSearchController searchController =
-  Get.find<FilterSearchController>();
+      Get.find<FilterSearchController>();
 
   Drawer _buildDrawer(double width) {
     return Drawer(
@@ -59,32 +61,22 @@ class PokedexScreen extends GetResponsiveView {
     );
   }
 
-  FloatingActionButton _buildFloatingActionButton() {
-    return FloatingActionButton(
-      onPressed: () async {
-        displayController
-            .changeSwatch(ColorScheme.fromSwatch(primarySwatch: Colors.indigo));
-      },
-    );
-  }
-
   @override
   Widget phone() {
     return Scaffold(
       appBar: themedAppBar(searchbar: true),
       drawer: _buildDrawer(150),
       backgroundColor:
-      displayController.state.appSwatch.value.primary.withOpacity(0.1),
+          displayController.state.appSwatch.value.primary.withOpacity(0.1),
       body: Container(
           color:
-          displayController.state.appSwatch.value.primary.withOpacity(0.1),
+              displayController.state.appSwatch.value.primary.withOpacity(0.1),
           child: DexGrid(
             count: 3,
             onItemTap: (selectedPokemonId) {
               navigationController.showDetailsScreen(selectedPokemonId);
             },
           )),
-      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
@@ -93,24 +85,21 @@ class PokedexScreen extends GetResponsiveView {
     return Scaffold(
       appBar: themedAppBar(actions: true),
       backgroundColor:
-      displayController.state.appSwatch.value.primary.withOpacity(0.1),
+          displayController.state.appSwatch.value.primary.withOpacity(0.1),
       body: Row(
         children: [
           Expanded(
-              child:
-                DexGrid(
-                  count: 9,
-                  onItemTap: (selectedPokemonId) {
-                    navigationController.showDetailsScreen(selectedPokemonId);
-                  },
-                )
-              ),
+              child: DexGrid(
+            count: 9,
+            onItemTap: (selectedPokemonId) {
+              navigationController.showDetailsScreen(selectedPokemonId);
+            },
+          )),
           PokedexPanel(
             width: 300,
           )
         ],
       ),
-      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
@@ -119,22 +108,21 @@ class PokedexScreen extends GetResponsiveView {
     return Scaffold(
       appBar: themedAppBar(),
       backgroundColor:
-      displayController.state.appSwatch.value.primary.withOpacity(0.1),
+          displayController.state.appSwatch.value.primary.withOpacity(0.1),
       body: Row(
         children: [
           Expanded(
               child: DexGrid(
-                count: 5,
-                onItemTap: (selectedPokemonId) {
-                  navigationController.showDetailsScreen(selectedPokemonId);
-                },
-              )),
+            count: 5,
+            onItemTap: (selectedPokemonId) {
+              navigationController.showDetailsScreen(selectedPokemonId);
+            },
+          )),
           PokedexPanel(
             width: 230,
           )
         ],
       ),
-      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 }

@@ -1,21 +1,24 @@
-
 import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:poke_team_builder/constants.dart';
 import 'package:poke_team_builder/controllers/pokedex_controller/pokedex_controller.dart';
+import 'package:poke_team_builder/controllers/team_controller/team_controller.dart';
 
 import '../../models/index_model.dart';
 import '../../models/filter_model.dart';
+import '../navigation_controller/navigation_controller.dart';
 
 part 'search_state.dart';
 
 class FilterSearchController extends GetxController {
   final SearchFilterState state;
   final PokedexState pokedexState;
+  final TeamState teamState;
 
   FilterSearchController({
+    required this.teamState,
     required this.state,
     required this.pokedexState,
   });
@@ -28,8 +31,14 @@ class FilterSearchController extends GetxController {
   }
 
   void onSearchParametersChanged() {
+    NavigationController navigationState = Get.find<NavigationController>();
     log("Search Parameters Changed");
-    IndexModel index = pokedexState.indexRepository.value!;
+    IndexModel index;
+    index = pokedexState.indexRepository.value!;
+    if (navigationState.state.actualPage.value == "/OwnedScreen") {
+      index = teamState.ownedPokemon.value!;
+    }
+
     List<DexEntry> resultList = [];
 
     for (DexEntry entry in index.dexIndex!) {
@@ -37,13 +46,15 @@ class FilterSearchController extends GetxController {
       bool? matchesType;
       if (state.searchParameters.value?.name != null) {
         matchesName = false;
-        if (entry.name!.toLowerCase().contains(state.searchParameters.value!.name!)){
+        if (entry.name!
+            .toLowerCase()
+            .contains(state.searchParameters.value!.name!)) {
           matchesName = true;
         }
       }
       if (state.searchParameters.value?.pokeTypeMain != null) {
         matchesType = false;
-        if(entry.types![0] == state.searchParameters.value!.pokeTypeMain){
+        if (entry.types![0] == state.searchParameters.value!.pokeTypeMain) {
           matchesType = true;
         }
       }
@@ -62,21 +73,18 @@ class FilterSearchController extends GetxController {
       updatedPokeTypeMain = null;
     }
 
-    PokeType? updatedPokeTypeSub = newParameters.pokeTypeSub;
-    if ((newParameters.pokeTypeSub == oldParameters?.pokeTypeSub)) {
-      updatedPokeTypeSub = null;
-    }
-
     FilterModel updatedParams = FilterModel(
       name: newParameters.name ?? oldParameters?.name,
       id: newParameters.id ?? oldParameters?.id,
-      pokeTypeMain: newParameters.pokeTypeMain != null ? updatedPokeTypeMain : oldParameters?.pokeTypeMain,
-      pokeTypeSub: updatedPokeTypeSub ?? oldParameters?.pokeTypeMain,
+      pokeTypeMain: newParameters.pokeTypeMain != null
+          ? updatedPokeTypeMain
+          : oldParameters?.pokeTypeMain,
     );
     state.searchParameters.value = updatedParams;
   }
 
-  Iterable<String> getSearchOptions(TextEditingValue textEditingValue, {required int count}) {
+  Iterable<String> getSearchOptions(TextEditingValue textEditingValue,
+      {required int count}) {
     IndexModel index = pokedexState.indexRepository.value!;
     List<String> optionStrings = [];
     for (DexEntry entry in index.dexIndex!) {
@@ -99,7 +107,8 @@ class FilterSearchController extends GetxController {
         return b.name!.compareTo(a.name!);
       }
     });
-    pokedexState.shownIndex.value = IndexModel(dexIndex: dexIndex, ascending: !ascending);
+    pokedexState.shownIndex.value =
+        IndexModel(dexIndex: dexIndex, ascending: !ascending);
     update();
   }
 
@@ -111,8 +120,8 @@ class FilterSearchController extends GetxController {
     } else {
       dexIndex!.sort((a, b) => b.id.compareTo(a.id));
     }
-    pokedexState.shownIndex.value = IndexModel(dexIndex: dexIndex, ascending: !ascending);
+    pokedexState.shownIndex.value =
+        IndexModel(dexIndex: dexIndex, ascending: !ascending);
     update(); // Notify listeners about the update
   }
-
 }

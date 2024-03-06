@@ -1,6 +1,8 @@
+import 'dart:developer';
 
 import 'package:get/get.dart';
-import '../../models/pokemon_model.dart';
+
+import '../../models/index_model.dart';
 
 part 'team_state.dart';
 
@@ -9,15 +11,32 @@ class TeamController extends GetxController {
 
   TeamController(this.state);
 
-  void updateOwnedPokemons(List<PokemonModel?> newPokemons) {
-    final pokedex = state.ownedPokemons.value;
-    for (var newPokemon in newPokemons) {
-      bool exists = pokedex
-          .any((existingPokemon) => existingPokemon!.id == newPokemon!.id);
-      if (!exists) {
-        pokedex.add(newPokemon);
-      }
-    }
-    state.ownedPokemons.value = pokedex;
+  @override
+  void onInit() {
+    //if (state.ownedPokemon.value == null) initializeTeam();
+    super.onInit();
   }
+
+  void initializeTeam() async {
+
+  }
+
+  void addToOwned(DexEntry dexEntry) {
+    IndexModel? ownedPokemons = state.ownedPokemon.value;
+
+    if (ownedPokemons != null) {
+      if (ownedPokemons.dexIndex!.any((entry) => entry.id == dexEntry.id)) {
+        log("${dexEntry.name} is already in the list of owned Pokemon");
+      } else {
+        ownedPokemons.dexIndex!.add(dexEntry);
+        log("${dexEntry.name} added to owned pokemon");
+      }
+    } else {
+      ownedPokemons = IndexModel(dexIndex: [dexEntry]);
+      log("${dexEntry.name} added to owned pokemon");
+    }
+    state.ownedPokemon.value = ownedPokemons;
+    state.ownedPokemon.refresh();
+  }
+
 }

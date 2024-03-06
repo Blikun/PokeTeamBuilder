@@ -7,65 +7,68 @@ import '../constants.dart';
 
 class DexGridItem extends StatelessWidget {
   final DexEntry dexEntry;
-
-  const DexGridItem({super.key, required this.dexEntry});
+  final Function(DexEntry)  onTap;
+  const DexGridItem({super.key, required this.dexEntry, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Stack(
-          fit: StackFit.expand,
-          alignment: Alignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Constants.typeColors.entries
-                            .firstWhere((element) =>
-                                element.key == dexEntry.types?.first)
-                            .value.withOpacity(0.40),
-                        blurRadius: 15,
-                        spreadRadius: 10,
-                       )
-                  ],
-                  border: Border.all(
-                      color: Colors.black,
-                      width: 8,
-                      strokeAlign: BorderSide.strokeAlignCenter),
-                  image: buildDecorationImage(dexEntry),
+        GestureDetector(
+          onTap: (){onTap(dexEntry); },
+          child: Stack(
+            fit: StackFit.expand,
+            alignment: Alignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Constants.typeColors.entries
+                              .firstWhere((element) =>
+                                  element.key == dexEntry.types?.first)
+                              .value.withOpacity(0.40),
+                          blurRadius: 15,
+                          spreadRadius: 10,
+                         )
+                    ],
+                    border: Border.all(
+                        color: Colors.black,
+                        width: 8,
+                        strokeAlign: BorderSide.strokeAlignCenter),
+                    image: buildDecorationImage(dexEntry),
+                  ),
                 ),
               ),
-            ),
-            Image.network(
-              dexEntry.frontDefault ?? "",
-              fit: BoxFit.cover,
-              errorBuilder:
-                  (BuildContext context, Object obj, StackTrace? err) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(Assets.substitute),
-                );
-              },
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Lottie.asset(Assets.pokeballAnim),
-                  ),
-                );
-              },
-            ),
-          ],
+              Image.network(
+                dexEntry.frontDefault ?? "",
+                fit: BoxFit.cover,
+                errorBuilder:
+                    (BuildContext context, Object obj, StackTrace? err) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(Assets.substitute),
+                  );
+                },
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Lottie.asset(Assets.pokeballAnim),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
         FittedBox(
             fit: BoxFit.scaleDown,
