@@ -1,16 +1,19 @@
-# poke_team_builder
+# poke team builder
 
-Pokemon team builder.
+#### Pokemon management Multiplatform Flutter App, using Getx and PokeAPI.co
+by PabloRizo @ 2024
 
-## Getting Started
+### features
 
-This project is a starting point for a Flutter application.
+- 1st Gen pokemon pokedex
+- Filters and name searches
+- Add to captured 
+- Manage captured Pokemon
+- Dynamic app theme based on cpatured pokemon types.
+- Responsive Layout for Desktop, Tablet & Phone
 
-A few resources to get you started if this is your first Flutter project:
+### Documentation:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [GetX](https://github.com/jonataslaw/getx/blob/master/README-es.md)
+- [PokeAPI.co](https://pokeapi.co/docs/v2)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
