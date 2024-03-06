@@ -9,13 +9,14 @@ import '../../constants.dart';
 import '../../controllers/search_controller/search_controller.dart';
 import '../../models/filter_model.dart';
 
+
+/// Wrap Widget to filter by type
 class TypesFilterWrap extends StatelessWidget {
   final double size;
 
   TypesFilterWrap({super.key, required this.size});
 
-  final FilterSearchController searchController =
-      Get.find<FilterSearchController>();
+  final FilterSearchController searchController = Get.find<FilterSearchController>();
   final DisplayController displayController = Get.find<DisplayController>();
 
   @override

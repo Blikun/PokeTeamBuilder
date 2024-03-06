@@ -18,12 +18,11 @@ class OwnedScreen extends GetResponsiveView {
   final DisplayController displayController = Get.find<DisplayController>();
   final PokedexController pokedexController = Get.find<PokedexController>();
   final TeamController teamController = Get.find<TeamController>();
-  final NavigationController navigationController =
-  Get.find<NavigationController>();
-  final FilterSearchController searchController =
-  Get.find<FilterSearchController>();
+  final NavigationController navigationController = Get.find<NavigationController>();
+  final FilterSearchController searchController = Get.find<FilterSearchController>();
 
 
+  /// phone size layout settings
   @override
   Widget phone() {
     return Obx(() {
@@ -37,9 +36,7 @@ class OwnedScreen extends GetResponsiveView {
             displayController.state.appSwatch.value.primary.withOpacity(0.1),
             child: DexGrid(
               isRemovable: true,
-              onItemDelete: (dexEntry) {
-                teamController.removeFromOwned(dexEntry);
-              },
+              onItemDelete: (dexEntry) {teamController.removeFromOwned(dexEntry);},
               count: 3,
               onItemTap: (selectedPokemonId) {
                 navigationController.showDetailsScreen(selectedPokemonId);
@@ -49,6 +46,7 @@ class OwnedScreen extends GetResponsiveView {
     });
   }
 
+  /// desktop size layout settings
   @override
   Widget desktop() {
     return Obx(() {
@@ -78,6 +76,7 @@ class OwnedScreen extends GetResponsiveView {
     });
   }
 
+  /// tablet size layout settings
   @override
   Widget tablet() {
     return Obx(() {

@@ -1,6 +1,7 @@
 
 import '../constants.dart';
 
+/// Search filters model
 class FilterModel {
   final String? name;
   final int? id;

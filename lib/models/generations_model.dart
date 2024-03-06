@@ -1,5 +1,6 @@
 GenerationsModel generationsFromPokeApi(Map<String, dynamic> json) => GenerationsModel.fromJson(json);
 
+/// Model for Pokemon list of generation / game versions
 class GenerationsModel {
   final List<Gen>? genList;
 
@@ -13,13 +14,13 @@ class GenerationsModel {
     }
 
     var genItems = json["results"]
-        .asMap() // as map for having key number.
+        .asMap() // as map for having key number to know gen number.
         .entries
         .map((entry) {
       int index = entry.key;
       Map<String, dynamic> item = entry.value;
       return Gen.fromJson(
-          item, index + 1); // + 1 because pokemon versions starts at 1.
+          item, index + 1); // + 1 because pokemon games gens start at 1.
     }).toList(); // back to a list.
 
 

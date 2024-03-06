@@ -7,21 +7,20 @@ import 'package:poke_team_builder/controllers/search_controller/search_controlle
 import 'package:poke_team_builder/widgets/pokedex_screen/pokedex_panel.dart';
 import 'package:poke_team_builder/widgets/themed_appbar.dart';
 
-import '../widgets/captured_button.dart';
+import '../widgets/owned_nav_button.dart';
 import '../widgets/dex_grid.dart';
 import '../widgets/themed_drawer.dart';
 
-/// Serves as HomeScreen - extends from responsive view
+/// Serves as HomeScreen and Pokedex - extends from responsive view
 class PokedexScreen extends GetResponsiveView {
   PokedexScreen({super.key});
 
   final DisplayController displayController = Get.find<DisplayController>();
   final PokedexController pokedexController = Get.find<PokedexController>();
-  final NavigationController navigationController =
-      Get.find<NavigationController>();
-  final FilterSearchController searchController =
-      Get.find<FilterSearchController>();
+  final NavigationController navigationController = Get.find<NavigationController>();
+  final FilterSearchController searchController = Get.find<FilterSearchController>();
 
+  /// phone size layout settings
   @override
   Widget phone() {
     return Obx(() {
@@ -40,11 +39,12 @@ class PokedexScreen extends GetResponsiveView {
                 navigationController.showDetailsScreen(selectedPokemonId);
               },
             )),
-        floatingActionButton: CapturedButton(),
+        floatingActionButton: SeeCapturedButton(),
       );
     });
   }
 
+  /// desktop size layout settings
   @override
   Widget desktop() {
     return Obx(() {
@@ -67,11 +67,12 @@ class PokedexScreen extends GetResponsiveView {
             )
           ],
         ),
-        floatingActionButton: CapturedButton(),
+        floatingActionButton: SeeCapturedButton(),
       );
     });
   }
 
+  /// tablet size layout settings
   @override
   Widget tablet() {
     return Obx(() {
@@ -94,7 +95,7 @@ class PokedexScreen extends GetResponsiveView {
             )
           ],
         ),
-        floatingActionButton: CapturedButton(),
+        floatingActionButton: SeeCapturedButton(),
       );
     });
   }

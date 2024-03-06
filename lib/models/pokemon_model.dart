@@ -103,7 +103,7 @@ class Sprites {
     this.showdown,
   });
 
-  /// subFactory for PokeAPI sprites
+  /// Factory for PokeAPI sprites
   factory Sprites.fromPokeApiJson(Map<String, dynamic> json) => Sprites(
         dreamWorld: json["dream_world"]["front_default"],
         officialArtwork: json["official-artwork"]["front_default"],

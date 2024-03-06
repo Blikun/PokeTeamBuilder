@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
 import 'package:poke_team_builder/controllers/search_controller/search_controller.dart';
@@ -8,6 +6,7 @@ import 'package:poke_team_builder/models/filter_model.dart';
 import 'package:poke_team_builder/widgets/pokedex_screen/types_filter_wrap.dart';
 import 'package:poke_team_builder/widgets/search_autocomplete.dart';
 
+/// Static panel widget only for Tablet to Desktop sizes
 class PokedexPanel extends StatelessWidget {
   final double width;
   final bool mobile;

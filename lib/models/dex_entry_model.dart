@@ -1,6 +1,7 @@
 import '../constants.dart';
 import '../utils.dart';
 
+/// Index Entry model with basic pokemon data
 class DexEntry {
   final int id;
   final String? name;
@@ -15,7 +16,6 @@ class DexEntry {
       'name': name,
       'frontDefault': frontDefault,
       'types': types?.map((type) => type.toString()).toList(),
-      // Assuming PokeType can be converted to string
     };
   }
 
