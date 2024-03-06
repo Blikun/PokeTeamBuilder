@@ -85,7 +85,12 @@ class FilterSearchController extends GetxController {
 
   Iterable<String> getSearchOptions(TextEditingValue textEditingValue,
       {required int count}) {
+    NavigationController navigationState = Get.find<NavigationController>();
     IndexModel index = pokedexState.indexRepository.value!;
+    index = pokedexState.indexRepository.value!;
+    if (navigationState.state.actualPage.value == "/OwnedScreen") {
+      index = teamState.ownedPokemon.value!;
+    }
     List<String> optionStrings = [];
     for (DexEntry entry in index.dexIndex!) {
       if (entry.name!

@@ -12,6 +12,7 @@ import 'package:poke_team_builder/widgets/themed_appbar.dart';
 
 import '../assets.dart';
 import '../constants.dart';
+import '../widgets/captured_button.dart';
 
 class DetailsScreen extends GetResponsiveView {
   DetailsScreen({super.key});
@@ -54,17 +55,9 @@ class DetailsScreen extends GetResponsiveView {
             ),
           ),
         ),
-        floatingActionButton: _buildFloatingActionButton(),
+        floatingActionButton: CapturedButton(),
       );
     });
-  }
-
-  FloatingActionButton _buildFloatingActionButton() {
-
-    return FloatingActionButton(
-      child: const Text("See captured pokemon"),
-      onPressed: () => navigationController.showOwnedScreen(),
-    );
   }
 }
 
@@ -117,7 +110,11 @@ class _PokemonDataWidget extends StatelessWidget {
                     teamController.addToOwned(
                         navigationController.state.shownPokemon.value!);
                   },
-                  child: Text("Add to captured", style: TextStyle(color: displayController.state.appSwatch.value.primary),)),
+                  child: Text(
+                    "Add to captured",
+                    style: TextStyle(
+                        color: displayController.state.appSwatch.value.primary),
+                  )),
             )
           ],
         ),
@@ -181,7 +178,9 @@ class _PokemonImage extends StatelessWidget {
       return SizedBox(
         height: 300,
         width: 300,
-        child: Padding(padding: EdgeInsets.all(90), child: Lottie.asset(Assets.pokeballAnim)),
+        child: Padding(
+            padding: EdgeInsets.all(90),
+            child: Lottie.asset(Assets.pokeballAnim)),
       );
     }
   }

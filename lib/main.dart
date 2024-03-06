@@ -21,7 +21,8 @@ void initialize() {
   var pokedexController = PokedexController(apiClient, PokedexState());
   var teamController = TeamController(TeamState());
 
-  var displayController = DisplayController(DisplayState());
+  var displayController =
+      DisplayController(DisplayState(), teamState: teamController.state);
   var navigationController = NavigationController(
       NavigationState(), pokedexController, teamController);
   var searchFilterController = FilterSearchController(

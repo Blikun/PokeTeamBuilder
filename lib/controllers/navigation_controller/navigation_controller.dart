@@ -6,6 +6,7 @@ import 'package:poke_team_builder/models/index_model.dart';
 import 'package:poke_team_builder/screens/owned_screen.dart';
 import 'package:poke_team_builder/screens/pokedex_screen.dart';
 import '../../screens/details_screen.dart';
+import '../../widgets/themed_snackbar.dart';
 import '../pokedex_controller/pokedex_controller.dart';
 
 part 'navigation_state.dart';
@@ -28,9 +29,13 @@ class NavigationController extends GetxController {
   }
 
   void showOwnedScreen() async {
-    Get.to(
-      () => OwnedScreen(),
-    );
+    if (teamController.state.ownedPokemon.value != null) {
+      Get.to(
+        () => OwnedScreen(),
+      );
+    } else {
+      themedSnackbar(title: "You have no pokemons yet!", msg: "First, its a need to capture a Pokémon in details screen");
+    }
   }
 
   void showPokedexScreen() async {
@@ -43,10 +48,12 @@ class NavigationController extends GetxController {
     state.actualPage.value = pageRoute;
     switch (pageRoute) {
       case "/OwnedScreen":
-        pokedexController.updateShownPokemon(teamController.state.ownedPokemon.value!);
+        pokedexController
+            .updateShownPokemon(teamController.state.ownedPokemon.value!);
         break;
       default:
-        pokedexController.updateShownPokemon(pokedexController.state.indexRepository.value ?? IndexModel());
+        pokedexController.updateShownPokemon(
+            pokedexController.state.indexRepository.value ?? IndexModel());
     }
     log("actual route: $pageRoute");
   }
