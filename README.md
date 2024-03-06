@@ -1,18 +1,18 @@
 # poke team builder
 
-Pokemon management Multiplatform Flutter App, using Getx and PokeAPI.co
+#### Pokemon management Multiplatform Flutter App, using Getx and PokeAPI.co
 by PabloRizo @ 2024
 
-## Details
+### features
 
-1st Gen pokemon pokedex
-Filters and name searches
-Add to captured 
-Manage captured Pokemon
-Dynamic app theme based on cpatured pokemon types.
-Responsive Layout for Desktop, Tablet & Phone
+- 1st Gen pokemon pokedex
+- Filters and name searches
+- Add to captured 
+- Manage captured Pokemon
+- Dynamic app theme based on cpatured pokemon types.
+- Responsive Layout for Desktop, Tablet & Phone
 
-Documentation:
+### Documentation:
 
 - [GetX](https://github.com/jonataslaw/getx/blob/master/README-es.md)
 - [PokeAPI.co](https://pokeapi.co/docs/v2)
