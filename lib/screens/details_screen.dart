@@ -104,7 +104,7 @@ class _PokemonDataWidget extends StatelessWidget {
               weight: pokemon.weight,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 40),
+              padding: const EdgeInsets.only(top: 20, bottom: 150),
               child: ElevatedButton(
                   onPressed: () {
                     teamController.addToOwned(
