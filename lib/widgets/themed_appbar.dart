@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:poke_team_builder/controllers/navigation_controller/navigation_controller.dart';
 import 'package:poke_team_builder/controllers/search_controller/search_controller.dart';
 import 'package:poke_team_builder/widgets/search_autocomplete.dart';
 import 'package:poke_team_builder/widgets/themed_button.dart';
