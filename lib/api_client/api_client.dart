@@ -5,15 +5,16 @@ import '../models/index_model.dart';
 import '../models/pokemon_model.dart';
 
 
-/// API client manager can extend an [API] implementation
+/// API client use-cases called from controllers
+/// this class can extend any [API] interface implementation
 class ApiClient extends PokeApi{
 
   Future<IndexModel> getIndex(Gen gen) async {
-    return super.pokeIndex(gen);
+    return super.getPokeIndex(gen);
   }
 
   Future<GenerationsModel> getGenerations() async {
-    return super.generations();
+    return super.getGamesGenerations();
   }
 
   Future<int> getGenerationCount(generationId) async {
@@ -21,7 +22,7 @@ class ApiClient extends PokeApi{
   }
 
   Future<PokemonModel> getSinglePokemon(int id) async {
-    return super.singlePokemon(id);
+    return super.getSinglePokemonDetails(id);
   }
 
 }

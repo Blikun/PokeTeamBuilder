@@ -1,10 +1,11 @@
 
 part of 'navigation_controller.dart';
 
+/// State for navigation
 class NavigationState {
 
-    /// Shown pokemons at grids
+    /// Pokemon to load when navigation to details
     Rx<DexEntry?> shownPokemon = Rx<DexEntry?>(null);
-    /// Shown results matching criteria repository
+    /// Actual nav route
     Rx<String> actualPage = Rx<String>("/");
 }

@@ -1,14 +1,12 @@
 import 'dart:developer';
-
 import 'package:get/get.dart';
-import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
 import 'package:poke_team_builder/controllers/search_controller/search_controller.dart';
-
 import '../../models/dex_entry_model.dart';
 import '../../models/index_model.dart';
 
 part 'team_state.dart';
 
+/// Captured / Teamed Pokemon use-cases
 class TeamController extends GetxController {
   final TeamState state;
 
@@ -16,13 +14,13 @@ class TeamController extends GetxController {
 
   @override
   void onInit() {
-    //if (state.ownedPokemon.value == null) initializeTeam();
+    // initializeTeam();
     super.onInit();
   }
 
-  void initializeTeam() async {
-
-  }
+    // void initializeTeam() async {
+    //
+    // }
 
   void addToOwned(DexEntry dexEntry) {
     IndexModel? ownedPokemons = state.ownedPokemon.value;
@@ -44,7 +42,6 @@ class TeamController extends GetxController {
 
   void removeFromOwned(DexEntry dexEntry) {
     FilterSearchController searchController = Get.find<FilterSearchController>();
-    DisplayController displayController = Get.find<DisplayController>();
     IndexModel? ownedPokemons = state.ownedPokemon.value;
 
     if (ownedPokemons != null) {

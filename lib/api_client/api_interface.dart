@@ -5,11 +5,11 @@ import '../models/pokemon_model.dart';
 
 /// API requirements interface
 abstract class API {
-  Future<IndexModel> pokeIndex(Gen gen);
+  Future<IndexModel> getPokeIndex(Gen gen);
 
-  Future<PokemonModel> singlePokemon(int id);
+  Future<PokemonModel> getSinglePokemonDetails(int id);
 
-  Future<GenerationsModel> generations();
+  Future<GenerationsModel> getGamesGenerations();
 
   Future<List<PokemonModel>> pokemonListPaginated(
       int page, int count, List<String> searchParams);

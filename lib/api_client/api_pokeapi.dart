@@ -8,7 +8,7 @@ import '../models/index_model.dart';
 import '../models/pokemon_model.dart';
 import 'api_interface.dart';
 
-/// [API] implementation for pokeapi.co
+/// [API] implementation for concrete pokeapi.co endpoint management
 class PokeApi implements API {
   late final Dio dio;
   late final GraphQLClient graphQLClient;
@@ -24,9 +24,10 @@ class PokeApi implements API {
     ));
   }
 
-  @override
-  Future<IndexModel> pokeIndex(Gen gen) async {
 
+  // getPokeIndex performs gql query for concrete result our app needs
+  @override
+  Future<IndexModel> getPokeIndex(Gen gen) async {
     log("asking for gen ${gen.number!} -> getting: ${gen.count} -> skipping: ${gen.offset}");
     try {
       final QueryOptions options = QueryOptions(
@@ -55,7 +56,7 @@ class PokeApi implements API {
   }
 
   @override
-  Future<PokemonModel> singlePokemon(int id) async {
+  Future<PokemonModel> getSinglePokemonDetails(int id) async {
     try {
       final response = await dio.get("/pokemon/$id");
       return pokemonModelFromPokeApi(response.data);
@@ -64,14 +65,14 @@ class PokeApi implements API {
     }
   }
 
-  @override
+  @override // future use
   Future<List<PokemonModel>> pokemonListPaginated(
       int limit, int offset, List<String> searchParams) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<GenerationsModel> generations() async {
+  Future<GenerationsModel> getGamesGenerations() async {
     try {
       final response = await dio.get("/generation/");
       GenerationsModel generations = generationsFromPokeApi(response.data);

@@ -10,6 +10,7 @@ import '../../models/pokemon_model.dart';
 
 part 'pokedex_state.dart';
 
+/// Pokedex and related data use-cases
 class PokedexController extends GetxController {
   final PokedexState state;
   final ApiClient apiClient;
@@ -31,7 +32,7 @@ class PokedexController extends GetxController {
   void getIndex(Gen gen) async {
     state.generations.value!.genList![gen.number! - 1] =
         await updateNeededGensCount(gen);
-    IndexModel pokeIndex = await apiClient.pokeIndex(gen);
+    IndexModel pokeIndex = await apiClient.getPokeIndex(gen);
     state.indexRepository.value?.dexIndex == null
         ? state.indexRepository.value = pokeIndex
         : state.indexRepository.value!.dexIndex!
@@ -43,7 +44,7 @@ class PokedexController extends GetxController {
   }
 
   Future<GenerationsModel> getGenerations() async {
-    GenerationsModel generations = await apiClient.generations();
+    GenerationsModel generations = await apiClient.getGamesGenerations();
     state.generations.value = generations;
     log("got generations");
     return generations;

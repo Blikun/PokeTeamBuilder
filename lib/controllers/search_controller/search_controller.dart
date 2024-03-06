@@ -13,6 +13,7 @@ import '../navigation_controller/navigation_controller.dart';
 
 part 'search_state.dart';
 
+/// Filters and pokemon list management use-cases
 class FilterSearchController extends GetxController {
   final SearchFilterState state;
   final PokedexState pokedexState;
@@ -36,7 +37,8 @@ class FilterSearchController extends GetxController {
     log("Search Parameters Changed");
     IndexModel index;
     index = pokedexState.indexRepository.value!;
-    if (navigationState.state.actualPage.value == "/OwnedScreen" || navigationState.state.actualPage.value == "/minified:wc") {
+    if (navigationState.state.actualPage.value == "/OwnedScreen" ||
+        navigationState.state.actualPage.value == "/minified:wc") { // fix for uploading to github webapp
       index = teamState.ownedPokemon.value!;
     }
 
@@ -89,7 +91,8 @@ class FilterSearchController extends GetxController {
     NavigationController navigationState = Get.find<NavigationController>();
     IndexModel index = pokedexState.indexRepository.value!;
     index = pokedexState.indexRepository.value!;
-    if (navigationState.state.actualPage.value == "/OwnedScreen" || navigationState.state.actualPage.value == "/minified:wc") {
+    if (navigationState.state.actualPage.value == "/OwnedScreen" ||
+        navigationState.state.actualPage.value == "/minified:wc") {  // fix for uploading to github webapp
       index = teamState.ownedPokemon.value!;
     }
     List<String> optionStrings = [];
@@ -128,6 +131,6 @@ class FilterSearchController extends GetxController {
     }
     pokedexState.shownIndex.value =
         IndexModel(dexIndex: dexIndex, ascending: !ascending);
-    update(); // Notify listeners about the update
+    update();
   }
 }

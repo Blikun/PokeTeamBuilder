@@ -12,6 +12,7 @@ import '../pokedex_controller/pokedex_controller.dart';
 
 part 'navigation_state.dart';
 
+/// Navigation use-cases
 class NavigationController extends GetxController {
   final NavigationState state;
   final PokedexController pokedexController;
@@ -50,7 +51,7 @@ class NavigationController extends GetxController {
     switch (pageRoute) {
       case "/minified:wc":
         pokedexController
-            .updateShownPokemon(teamController.state.ownedPokemon.value!);
+            .updateShownPokemon(teamController.state.ownedPokemon.value!);  // fix for github webapp
         break;
       case "/OwnedScreen":
         pokedexController

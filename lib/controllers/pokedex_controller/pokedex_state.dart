@@ -1,6 +1,7 @@
 
 part of 'pokedex_controller.dart';
 
+/// State for pokemon indexes pokedex and generations related data
 class PokedexState {
 
     /// Total indexed pokemon basic data repository

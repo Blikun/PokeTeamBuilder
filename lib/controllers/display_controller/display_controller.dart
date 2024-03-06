@@ -1,15 +1,11 @@
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../../constants.dart';
 import '../team_controller/team_controller.dart';
 
 part 'display_state.dart';
 
+/// Display and Theme related use-cases
 class DisplayController extends GetxController {
   final DisplayState state;
   final TeamState teamState;
@@ -23,6 +19,9 @@ class DisplayController extends GetxController {
     ever(teamState.ownedPokemon, (_) => updateColorSwatch());
   }
 
+  //Many pokemon are two typed, example:
+  //Selecting Ivysaur alone wont trigger a change because its Two typed, 1Poison 1Grass
+  //Selecting Ivysaur + Ekans will trigger poison change
   void updateColorSwatch() {
     if (teamState.ownedPokemon.value?.dexIndex == null || teamState.ownedPokemon.value!.dexIndex!.isEmpty) {
       changeSwatch(ColorScheme.fromSwatch(primarySwatch: Colors.red));
@@ -50,7 +49,7 @@ class DisplayController extends GetxController {
         .map((entry) => entry.key)
         .toList();
 
-    log("updating theme");
+
     if (typesWithRecord.length == 1) {
       // wins only if alone
       final colorScheme = ColorScheme.fromSwatch(primarySwatch: Constants.typeColors[typesWithRecord.first] ?? Colors.red);
@@ -60,9 +59,6 @@ class DisplayController extends GetxController {
       changeSwatch(ColorScheme.fromSwatch(primarySwatch: Colors.red));
     }
   }
-
-
-
 
   void changeSwatch(ColorScheme swatch){
     state.appSwatch.value = swatch;
