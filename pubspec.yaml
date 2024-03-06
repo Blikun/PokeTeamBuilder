@@ -13,9 +13,9 @@ dependencies:
     sdk: flutter
   get:
   flutter_animate:
-  flutter_secure_storage: ^9.0.0
   google_fonts:
   lottie:
+  get_storage:
   responsive_sizer: ^3.3.0+1
   dio: ^5.4.0
   cupertino_icons: ^1.0.6

@@ -1,5 +1,3 @@
-import '../constants.dart';
-import '../utils.dart';
 import 'dex_entry_model.dart';
 
 IndexModel pokeIndexFromPokeGQL(Map<String, dynamic> json) =>
@@ -15,12 +13,8 @@ class IndexModel {
     this.ascending = false,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'dexIndex': dexIndex?.map((entry) => entry.toJson()).toList(),
-      'ascending': ascending,
-    };
-  }
+
+
 
   IndexModel copyWith({
     List<DexEntry>? dexIndex,
@@ -31,7 +25,24 @@ class IndexModel {
         ascending: ascending,
       );
 
-  /// IndexModel Factory for PokeAPI GraphQl response
+  // IndexModel toJson
+    Map<String, dynamic> toJsonPrefs() {
+    return {
+      'dexIndex': dexIndex?.map((entry) => entry.toJsonPrefs()).toList(),
+      'ascending': ascending,
+    };
+  }
+  // IndexModel Factory from SharedPrefs
+  factory IndexModel.fromJsonPrefs(Map<String, dynamic> json) {
+    return IndexModel(
+      dexIndex: json['dexIndex'] != null
+          ? List<DexEntry>.from(json['dexIndex'].map((x) => DexEntry.fromJsonPrefs(x)))
+          : [],
+      ascending: json['ascending'],
+    );
+  }
+
+  // IndexModel Factory for PokeAPI GraphQl response
   factory IndexModel.fromPokeGQL(Map<String, dynamic> indexData) =>
       IndexModel(
         dexIndex: indexData["pokemon_v2_pokemon"] == null ? [] : List<DexEntry>.from(indexData["pokemon_v2_pokemon"].map((x) => DexEntry.fromPokeApiJson(x))),

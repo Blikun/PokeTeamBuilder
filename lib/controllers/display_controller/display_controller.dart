@@ -9,7 +9,7 @@ part 'display_state.dart';
 class DisplayController extends GetxController {
   final DisplayState state;
   final TeamState teamState;
-  DisplayController(this.state, {required this.teamState});
+  DisplayController(this.state, this.teamState);
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -59,6 +59,8 @@ class DisplayController extends GetxController {
       changeSwatch(ColorScheme.fromSwatch(primarySwatch: Colors.red));
     }
   }
+
+
 
   void changeSwatch(ColorScheme swatch){
     state.appSwatch.value = swatch;

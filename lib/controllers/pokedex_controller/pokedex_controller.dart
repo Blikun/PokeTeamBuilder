@@ -15,7 +15,7 @@ class PokedexController extends GetxController {
   final PokedexState state;
   final ApiClient apiClient;
 
-  PokedexController(this.apiClient, this.state);
+  PokedexController(this.state, this.apiClient);
 
   @override
   void onInit() {

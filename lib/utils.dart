@@ -1,6 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:poke_team_builder/constants.dart';
 
 class Utils {
@@ -17,8 +15,13 @@ class Utils {
     return pokeType;
   }
 
-
-
+  bool isMobile() {
+    bool isMobile = false;
+      if (Platform.isIOS || Platform.isAndroid) {
+       isMobile = true;
+      }
+      return isMobile;
+    }
 
 }
 

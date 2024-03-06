@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:poke_team_builder/controllers/local_data_controller/local_data_controller.dart';
 import 'package:poke_team_builder/controllers/team_controller/team_controller.dart';
 import 'package:poke_team_builder/api_client/api_client.dart';
 import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
@@ -11,31 +13,30 @@ import 'package:poke_team_builder/screens/owned_screen.dart';
 import 'package:poke_team_builder/screens/pokedex_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-void main() {
-  initialize();
+void main() async {
+  await GetStorage.init();
+  initializeDependencies();
   runApp(const MyApp());
 }
 
-void initialize() {
-  ApiClient apiClient = ApiClient();
-  var pokedexController = PokedexController(apiClient, PokedexState());
-  var teamController = TeamController(TeamState());
-  var displayController =
-      DisplayController(DisplayState(), teamState: teamController.state);
-  var navigationController = NavigationController(
-      NavigationState(), pokedexController, teamController);
-  var searchFilterController = FilterSearchController(
-    state: SearchFilterState(),
-    pokedexState: pokedexController.state,
-    teamState: teamController.state,
-  );
 
-  Get.lazyPut(() => pokedexController, fenix: true);
-  Get.lazyPut(() => teamController, fenix: true);
+void initializeDependencies() {
+  ApiClient apiClient = ApiClient();
+  var localDataController = LocalDataController();
+  var teamController = TeamController(TeamState(),localDataController);
+  var pokedexController = PokedexController(PokedexState(), apiClient);
+  var displayController = DisplayController(DisplayState(), teamController.state);
+  var navigationController = NavigationController(NavigationState(), pokedexController, teamController);
+  var searchFilterController = FilterSearchController(SearchFilterState(),teamController.state,pokedexController.state);
+
+  Get.put(pokedexController);
+  Get.put(localDataController);
+  Get.put(teamController);
   Get.lazyPut(() => navigationController, fenix: true);
   Get.lazyPut(() => displayController, fenix: true);
   Get.lazyPut(() => searchFilterController, fenix: true);
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

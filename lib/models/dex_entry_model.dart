@@ -31,7 +31,26 @@ class DexEntry {
           types: types ?? this.types,
           id: id ?? this.id);
 
-  /// factory DexEntry for PokeAPI GraphQl response
+  Map<String, dynamic> toJsonPrefs() {
+    return {
+      'id': id,
+      'name': name,
+      'frontDefault': frontDefault,
+      'types': types?.map((type) => Utils().pokeTypeToString(type)).toList(),
+    };
+  }
+
+  // factory DexEntry from Local data
+  factory DexEntry.fromJsonPrefs(Map<String, dynamic> json) {
+    return DexEntry(
+      id: json['id'],
+      name: json['name'],
+      frontDefault: json['frontDefault'],
+      types: (json['types'] as List).map((type) => Utils().stringToPokeType(type)).toList(),
+    );
+  }
+
+  // factory DexEntry from PokeAPI GraphQl response
   factory DexEntry.fromPokeApiJson(Map<String, dynamic> json) => DexEntry(
     id: json["id"],
     name: json["name"],
