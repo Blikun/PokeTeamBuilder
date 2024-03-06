@@ -1,4 +1,6 @@
-import 'dart:io' show Platform;
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -11,9 +13,7 @@ part 'display_state.dart';
 class DisplayController extends GetxController {
   final DisplayState state;
   final TeamState teamState;
-
   DisplayController(this.state, {required this.teamState});
-
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -24,8 +24,7 @@ class DisplayController extends GetxController {
   }
 
   void updateColorSwatch() {
-    if (teamState.ownedPokemon.value?.dexIndex == null ||
-        teamState.ownedPokemon.value!.dexIndex!.isEmpty) {
+    if (teamState.ownedPokemon.value?.dexIndex == null || teamState.ownedPokemon.value!.dexIndex!.isEmpty) {
       changeSwatch(ColorScheme.fromSwatch(primarySwatch: Colors.red));
       return;
     }
@@ -51,37 +50,23 @@ class DisplayController extends GetxController {
         .map((entry) => entry.key)
         .toList();
 
+    log("updating theme");
     if (typesWithRecord.length == 1) {
       // wins only if alone
-
-      var colorScheme = ColorScheme.fromSwatch(
-          primarySwatch:
-              Constants.typeColors[typesWithRecord.first] ?? Colors.red);
-      if (isMobile()) {
-         colorScheme = ColorScheme.fromSeed(
-            seedColor:
-                Constants.typeColors[typesWithRecord.first] ?? Colors.red);
-      }
-
+      final colorScheme = ColorScheme.fromSwatch(primarySwatch: Constants.typeColors[typesWithRecord.first] ?? Colors.red);
       changeSwatch(colorScheme);
     } else {
       // If there are no record alone, no one wins
       changeSwatch(ColorScheme.fromSwatch(primarySwatch: Colors.red));
-      if (isMobile()) {
-        changeSwatch(ColorScheme.fromSeed(seedColor: Colors.red));
-      }
     }
   }
 
-  bool isMobile() {
-    if (Platform.isIOS || Platform.isAndroid) {
-      return true;
-    }
-    return false;
-  }
 
-  void changeSwatch(ColorScheme swatch) {
+
+
+  void changeSwatch(ColorScheme swatch){
     state.appSwatch.value = swatch;
     update();
   }
+
 }

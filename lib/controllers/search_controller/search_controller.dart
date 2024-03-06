@@ -6,6 +6,7 @@ import 'package:poke_team_builder/constants.dart';
 import 'package:poke_team_builder/controllers/pokedex_controller/pokedex_controller.dart';
 import 'package:poke_team_builder/controllers/team_controller/team_controller.dart';
 
+import '../../models/dex_entry_model.dart';
 import '../../models/index_model.dart';
 import '../../models/filter_model.dart';
 import '../navigation_controller/navigation_controller.dart';
@@ -35,7 +36,7 @@ class FilterSearchController extends GetxController {
     log("Search Parameters Changed");
     IndexModel index;
     index = pokedexState.indexRepository.value!;
-    if (navigationState.state.actualPage.value == "/OwnedScreen") {
+    if (navigationState.state.actualPage.value == "/OwnedScreen" || navigationState.state.actualPage.value == "/minified:wc") {
       index = teamState.ownedPokemon.value!;
     }
 
@@ -88,7 +89,7 @@ class FilterSearchController extends GetxController {
     NavigationController navigationState = Get.find<NavigationController>();
     IndexModel index = pokedexState.indexRepository.value!;
     index = pokedexState.indexRepository.value!;
-    if (navigationState.state.actualPage.value == "/OwnedScreen") {
+    if (navigationState.state.actualPage.value == "/OwnedScreen" || navigationState.state.actualPage.value == "/minified:wc") {
       index = teamState.ownedPokemon.value!;
     }
     List<String> optionStrings = [];

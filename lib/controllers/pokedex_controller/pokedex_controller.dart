@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:poke_team_builder/api_client/api_client.dart';
 import 'package:poke_team_builder/models/generations_model.dart';
 
+import '../../models/dex_entry_model.dart';
 import '../../models/index_model.dart';
 import '../../models/pokemon_model.dart';
 

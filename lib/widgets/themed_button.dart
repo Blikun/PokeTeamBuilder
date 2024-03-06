@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../controllers/display_controller/display_controller.dart';
 
+/// Circular themed button
 class ThemedButton extends StatelessWidget {
 
   final Widget child;

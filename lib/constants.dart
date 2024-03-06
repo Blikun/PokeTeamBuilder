@@ -14,9 +14,10 @@ class Constants {
     wordSpacing: 0,
   );
 
+
   static const Map<PokeType, MaterialColor> typeColors = {
     PokeType.normal: Colors.grey,
-    PokeType.grass: Colors.green,
+    PokeType.grass: Colors.lightGreen,
     PokeType.fire: Colors.orange,
     PokeType.water: Colors.indigo,
     PokeType.electric: Colors.yellow,

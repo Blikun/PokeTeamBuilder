@@ -1,4 +1,3 @@
-
 import 'package:poke_team_builder/constants.dart';
 
 import '../utils.dart';
@@ -6,6 +5,7 @@ import '../utils.dart';
 PokemonModel pokemonModelFromPokeApi(Map<String, dynamic> json) =>
     PokemonModel.fromPokeApiJson(json);
 
+/// Pokemon model full details
 class PokemonModel {
   final List<String>? abilities;
   final List<String>? gameIndices;
@@ -60,6 +60,7 @@ class PokemonModel {
         types: types ?? this.types,
       );
 
+  /// Factory for PokeAPI json model
   factory PokemonModel.fromPokeApiJson(Map<String, dynamic> json) => PokemonModel(
       abilities: json["abilities"] == null
           ? []
@@ -80,11 +81,11 @@ class PokemonModel {
       weight: json["weight"],
       sprites: json["sprites"] == null
           ? null
-          : Sprites.fromJson(json["sprites"]["other"]),
+          : Sprites.fromPokeApiJson(json["sprites"]["other"]),
       stats: json["stats"] == null
           ? []
           : List<Stat>.from(
-              json["stats"].map((element) => Stat.fromJson(element))),
+              json["stats"].map((element) => Stat.fromPokeApiJson(element))),
       types: json["types"] == null
           ? []
           : List<PokeType>.from(
@@ -102,7 +103,8 @@ class Sprites {
     this.showdown,
   });
 
-  factory Sprites.fromJson(Map<String, dynamic> json) => Sprites(
+  /// subFactory for PokeAPI sprites
+  factory Sprites.fromPokeApiJson(Map<String, dynamic> json) => Sprites(
         dreamWorld: json["dream_world"]["front_default"],
         officialArtwork: json["official-artwork"]["front_default"],
         showdown: json["showdown"]["front_default"],
@@ -131,7 +133,8 @@ class Stat {
         stat: stat ?? this.stat,
       );
 
-  factory Stat.fromJson(Map<String, dynamic> json) => Stat(
+  /// subFactory for PokeAPI stats
+  factory Stat.fromPokeApiJson(Map<String, dynamic> json) => Stat(
         baseStat: json["base_stat"],
         effort: json["effort"],
         stat: json["stat"]["name"],

@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:poke_team_builder/controllers/display_controller/display_controller.dart';
+import 'package:poke_team_builder/controllers/search_controller/search_controller.dart';
 
+import '../../models/dex_entry_model.dart';
 import '../../models/index_model.dart';
 
 part 'team_state.dart';
@@ -37,6 +40,23 @@ class TeamController extends GetxController {
     }
     state.ownedPokemon.value = ownedPokemons;
     state.ownedPokemon.refresh();
+  }
+
+  void removeFromOwned(DexEntry dexEntry) {
+    FilterSearchController searchController = Get.find<FilterSearchController>();
+    DisplayController displayController = Get.find<DisplayController>();
+    IndexModel? ownedPokemons = state.ownedPokemon.value;
+
+    if (ownedPokemons != null) {
+      ownedPokemons.dexIndex!.removeWhere((entry) => entry.id == dexEntry.id);
+      log("${dexEntry.name} removed from owned pokemon");
+
+      state.ownedPokemon.value = ownedPokemons;
+      state.ownedPokemon.refresh();
+      searchController.onSearchParametersChanged();
+    } else {
+      log("Error");
+    }
   }
 
 }

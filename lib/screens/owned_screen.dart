@@ -11,6 +11,7 @@ import 'package:poke_team_builder/widgets/themed_appbar.dart';
 import '../widgets/dex_grid.dart';
 import '../widgets/themed_drawer.dart';
 
+/// Owned Screen pokemon management - extends from responsive view
 class OwnedScreen extends GetResponsiveView {
   OwnedScreen({super.key});
 
@@ -18,74 +19,91 @@ class OwnedScreen extends GetResponsiveView {
   final PokedexController pokedexController = Get.find<PokedexController>();
   final TeamController teamController = Get.find<TeamController>();
   final NavigationController navigationController =
-      Get.find<NavigationController>();
+  Get.find<NavigationController>();
   final FilterSearchController searchController =
-      Get.find<FilterSearchController>();
-
+  Get.find<FilterSearchController>();
 
 
   @override
   Widget phone() {
-    return Scaffold(
-      appBar: themedAppBar(searchbar: true),
-      endDrawer: themedDrawer(150),
-      backgroundColor:
-          displayController.state.appSwatch.value.primary.withOpacity(0.1),
-      body: Container(
-          color:
-              displayController.state.appSwatch.value.primary.withOpacity(0.1),
-          child: DexGrid(
-            count: 3,
-            onItemTap: (selectedPokemonId) {
-              navigationController.showDetailsScreen(selectedPokemonId);
-            },
-          )),
-    );
+    return Obx(() {
+      return Scaffold(
+        appBar: themedAppBar(searchbar: true),
+        endDrawer: themedDrawer(150),
+        backgroundColor:
+        displayController.state.appSwatch.value.primary.withOpacity(0.1),
+        body: Container(
+            color:
+            displayController.state.appSwatch.value.primary.withOpacity(0.1),
+            child: DexGrid(
+              isRemovable: true,
+              onItemDelete: (dexEntry) {
+                teamController.removeFromOwned(dexEntry);
+              },
+              count: 3,
+              onItemTap: (selectedPokemonId) {
+                navigationController.showDetailsScreen(selectedPokemonId);
+              },
+            )),
+      );
+    });
   }
 
   @override
   Widget desktop() {
-    return Scaffold(
-      appBar: themedAppBar(actions: true),
-      backgroundColor:
-          displayController.state.appSwatch.value.primary.withOpacity(0.1),
-      body: Row(
-        children: [
-          Expanded(
-              child: DexGrid(
-            count: 9,
-            onItemTap: (selectedPokemonId) {
-              navigationController.showDetailsScreen(selectedPokemonId);
-            },
-          )),
-          PokedexPanel(
-            width: 300,
-          )
-        ],
-      ),
-    );
+    return Obx(() {
+      return Scaffold(
+        appBar: themedAppBar(actions: true),
+        backgroundColor:
+        displayController.state.appSwatch.value.primary.withOpacity(0.1),
+        body: Row(
+          children: [
+            Expanded(
+                child: DexGrid(
+                  isRemovable: true,
+                  onItemDelete: (dexEntry) {
+                    teamController.removeFromOwned(dexEntry);
+                  },
+                  count: 9,
+                  onItemTap: (selectedPokemonId) {
+                    navigationController.showDetailsScreen(selectedPokemonId);
+                  },
+                )),
+            PokedexPanel(
+              width: 300,
+            )
+          ],
+        ),
+      );
+    });
   }
 
   @override
   Widget tablet() {
-    return Scaffold(
-      appBar: themedAppBar(),
-      backgroundColor:
-          displayController.state.appSwatch.value.primary.withOpacity(0.1),
-      body: Row(
-        children: [
-          Expanded(
-              child: DexGrid(
-            count: 5,
-            onItemTap: (selectedPokemonId) {
-              navigationController.showDetailsScreen(selectedPokemonId);
-            },
-          )),
-          PokedexPanel(
-            width: 230,
-          )
-        ],
-      ),
-    );
+    return Obx(() {
+      return Scaffold(
+        appBar: themedAppBar(),
+        backgroundColor:
+        displayController.state.appSwatch.value.primary.withOpacity(0.1),
+        body: Row(
+          children: [
+            Expanded(
+                child: DexGrid(
+                  isRemovable: true,
+                  onItemDelete: (dexEntry) {
+                    teamController.removeFromOwned(dexEntry);
+                  },
+                  count: 5,
+                  onItemTap: (selectedPokemonId) {
+                    navigationController.showDetailsScreen(selectedPokemonId);
+                  },
+                )),
+            PokedexPanel(
+              width: 230,
+            )
+          ],
+        ),
+      );
+    });
   }
 }

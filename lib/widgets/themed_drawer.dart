@@ -5,7 +5,7 @@ import 'package:poke_team_builder/controllers/search_controller/search_controlle
 import 'package:poke_team_builder/widgets/pokedex_screen/types_filter_wrap.dart';
 import 'package:poke_team_builder/widgets/themed_button.dart';
 
-
+/// Drawer for mobile version
 Drawer themedDrawer(double width) {
   DisplayController displayController = Get.find<DisplayController>();
   FilterSearchController searchController = Get.find<FilterSearchController>();

@@ -5,6 +5,7 @@ import 'package:poke_team_builder/controllers/team_controller/team_controller.da
 import 'package:poke_team_builder/models/index_model.dart';
 import 'package:poke_team_builder/screens/owned_screen.dart';
 import 'package:poke_team_builder/screens/pokedex_screen.dart';
+import '../../models/dex_entry_model.dart';
 import '../../screens/details_screen.dart';
 import '../../widgets/themed_snackbar.dart';
 import '../pokedex_controller/pokedex_controller.dart';
@@ -47,6 +48,10 @@ class NavigationController extends GetxController {
   void changeActualPage(String pageRoute) {
     state.actualPage.value = pageRoute;
     switch (pageRoute) {
+      case "/minified:wc":
+        pokedexController
+            .updateShownPokemon(teamController.state.ownedPokemon.value!);
+        break;
       case "/OwnedScreen":
         pokedexController
             .updateShownPokemon(teamController.state.ownedPokemon.value!);

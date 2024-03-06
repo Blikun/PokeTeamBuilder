@@ -5,7 +5,7 @@ import 'package:poke_team_builder/controllers/display_controller/display_control
 
 import '../controllers/search_controller/search_controller.dart';
 
-/// Autocomplete text input
+/// Autocomplete search by name text input
 class SearchAutocompleteField extends StatelessWidget {
   SearchAutocompleteField({super.key, required this.onTapCallback});
 

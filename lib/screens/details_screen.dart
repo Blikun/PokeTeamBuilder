@@ -14,6 +14,7 @@ import '../assets.dart';
 import '../constants.dart';
 import '../widgets/captured_button.dart';
 
+/// Pokemon DetailScreen info and capture - extends from responsive view
 class DetailsScreen extends GetResponsiveView {
   DetailsScreen({super.key});
 
@@ -23,14 +24,15 @@ class DetailsScreen extends GetResponsiveView {
   final NavigationController navigationController =
       Get.find<NavigationController>();
 
+  // this sreen for the moment doesn't require multiple configs
+  // it will if project grows so this is a basis future setup.
   @override
   Widget phone() => _buildMainContent();
-
   @override
   Widget desktop() => _buildMainContent();
-
   @override
   Widget tablet() => _buildMainContent();
+
 
   GetBuilder<DisplayController> _buildMainContent() {
     return GetBuilder<DisplayController>(builder: (controller) {

@@ -20,7 +20,6 @@ void initialize() {
   ApiClient apiClient = ApiClient();
   var pokedexController = PokedexController(apiClient, PokedexState());
   var teamController = TeamController(TeamState());
-
   var displayController =
       DisplayController(DisplayState(), teamState: teamController.state);
   var navigationController = NavigationController(
