@@ -3,6 +3,8 @@
 #### Pokemon management Multiplatform Flutter App, using Getx and PokeAPI.co
 by PabloRizo @ 2024
 
+[See in the browser](https://blikun.github.io/PokeTeamBuilderResponsive/)
+
 ### features
 
 - 1st Gen pokemon pokedex
