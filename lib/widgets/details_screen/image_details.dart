@@ -7,8 +7,9 @@ import '../../assets.dart';
 /// Image builder for official art image at details
 class ImageDetails extends StatelessWidget {
   final String? imageUrl;
+  final bool animated;
 
-  const ImageDetails({super.key, this.imageUrl});
+  const ImageDetails({super.key, this.imageUrl, this.animated = false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class ImageDetails extends StatelessWidget {
         height: 300,
         width: 300,
         child: Image.network(
-          imageUrl!,
+          imageUrl!, scale: animated ? 0.4 : 1,
           loadingBuilder: (context, child, loadingProgress) =>
           loadingProgress == null
               ? child

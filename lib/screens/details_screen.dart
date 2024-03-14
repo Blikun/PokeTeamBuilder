@@ -21,8 +21,8 @@ class DetailsScreen extends GetResponsiveView {
 
   final DisplayController displayController = Get.find<DisplayController>();
   final PokedexController pokedexController = Get.find<PokedexController>();
-  final NavigationController navigationController = Get.find<
-      NavigationController>();
+  final NavigationController navigationController =
+      Get.find<NavigationController>();
 
   // this sreen for the moment doesn't require multiple configs
   // it will if project grows so this is a basis future setup.
@@ -35,67 +35,54 @@ class DetailsScreen extends GetResponsiveView {
   @override
   Widget tablet() => _buildMainContent();
 
-
   Obx _buildMainContent() {
-    return
-      Obx(() {
-        return Scaffold(
-          appBar: themedAppBar(actions: false),
-          backgroundColor:
-          displayController.state.appSwatch.value.primary.withOpacity(0.1),
-          body: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                  minHeight: MediaQuery
-                      .of(Get.context!)
-                      .size
-                      .height),
-              child: IntrinsicHeight(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // Center vertically
-                  children: [
-                    Expanded(
-                      child: _PokemonDataWidget(),
-                    ),
-                  ],
-                ),
+    return Obx(() {
+      return Scaffold(
+        appBar: themedAppBar(actions: false),
+        backgroundColor:
+            displayController.state.appSwatch.value.primary.withOpacity(0.1),
+        body: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                minHeight: MediaQuery.of(Get.context!).size.height),
+            child: IntrinsicHeight(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // Center vertically
+                children: [
+                  Expanded(
+                    child: _PokemonDataWidget(),
+                  ),
+                ],
               ),
             ),
           ),
-          floatingActionButton: SeeCapturedButton(),
-        );
-      });
+        ),
+        floatingActionButton: SeeCapturedButton(),
+      );
+    });
   }
 }
 
-
 // main details body
 class _PokemonDataWidget extends StatelessWidget {
-
   final PokedexController pokedexController = Get.find<PokedexController>();
-  final NavigationController navigationController = Get.find<
-      NavigationController>();
+  final NavigationController navigationController =
+      Get.find<NavigationController>();
   final TeamController teamController = Get.find<TeamController>();
-  final FilterSearchController searchController = Get.find<
-      FilterSearchController>();
+  final FilterSearchController searchController =
+      Get.find<FilterSearchController>();
   final DisplayController displayController = Get.find<DisplayController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       PokemonModel? pokemon = pokedexController.state.pokedex.value.firstWhere(
-              (element) =>
-          element?.id == navigationController.state.shownPokemon.value!.id);
+          (element) =>
+              element?.id == navigationController.state.shownPokemon.value!.id);
       return Container(
-        width: MediaQuery
-            .of(Get.context!)
-            .size
-            .width,
-        height: MediaQuery
-            .of(Get.context!)
-            .size
-            .height,
+        width: MediaQuery.of(Get.context!).size.width,
+        height: MediaQuery.of(Get.context!).size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
@@ -105,12 +92,15 @@ class _PokemonDataWidget extends StatelessWidget {
                       .value,
                 ),
                 colorFilter:
-                const ColorFilter.mode(Colors.white38, BlendMode.lighten),
+                    const ColorFilter.mode(Colors.white38, BlendMode.lighten),
                 fit: BoxFit.cover)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ImageDetails(imageUrl: pokemon?.sprites?.officialArtwork),
+            ImageDetails(
+              imageUrl: pokemon?.sprites?.showdown,
+              animated: true,
+            ),
             PokeTypeRow(types: pokemon?.types ?? []),
             NameIdTitle(
               name: pokemon!.name!,
@@ -121,19 +111,33 @@ class _PokemonDataWidget extends StatelessWidget {
               weight: pokemon.weight,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 150),
-              child: ElevatedButton(
-                  onPressed: () {
-                    teamController.addToOwned(
-                        navigationController.state.shownPokemon.value!);
-                  },
-                  child: Text("Add to captured", style: TextStyle(
-                      color: displayController.state.appSwatch.value.primary),
-                  )),
-            )
+                padding: const EdgeInsets.only(top: 20, bottom: 150),
+                child: teamController.state.ownedPokemon.value != null &&
+                        teamController.state.ownedPokemon.value!.dexIndex!
+                            .any((element) => element.id == pokemon.id)
+                    ? _buildCaptureButton(
+                        "Release",
+                        () => teamController.removeFromOwned(
+                            navigationController.state.shownPokemon.value!))
+                    : _buildCaptureButton(
+                        "Capture",
+                        () => teamController.addToOwned(
+                            navigationController.state.shownPokemon.value!)))
           ],
         ),
       );
     });
+  }
+
+  ElevatedButton _buildCaptureButton(String text, Function onTap) {
+    return ElevatedButton(
+        onPressed: () {
+          onTap();
+        },
+        child: Text(
+          text,
+          style:
+              TextStyle(color: displayController.state.appSwatch.value.primary),
+        ));
   }
 }
