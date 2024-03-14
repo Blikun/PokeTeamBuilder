@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../constants.dart';
+import '../../models/dex_entry_model.dart';
 import '../team_controller/team_controller.dart';
 
 part 'display_state.dart';
@@ -9,7 +10,9 @@ part 'display_state.dart';
 class DisplayController extends GetxController {
   final DisplayState state;
   final TeamState teamState;
+
   DisplayController(this.state, this.teamState);
+
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -23,36 +26,39 @@ class DisplayController extends GetxController {
   //Selecting Ivysaur alone wont trigger a change because its Two typed, 1Poison 1Grass
   //Selecting Ivysaur + Ekans will trigger poison change
   void updateColorSwatch() {
-    if (teamState.ownedPokemon.value?.dexIndex == null || teamState.ownedPokemon.value!.dexIndex!.isEmpty) {
+    if (teamState.ownedPokemon.value?.dexIndex == null ||
+        teamState.ownedPokemon.value!.dexIndex!.isEmpty) {
       changeSwatch(ColorScheme.fromSwatch(primarySwatch: Colors.red));
       return;
     }
 
-    final typeMaxFoundMap = <PokeType, int>{};
-    for (final entry in teamState.ownedPokemon.value!.dexIndex!) {
-      for (final type in entry.types ?? []) {
-        typeMaxFoundMap[type] = (typeMaxFoundMap[type] ?? 0) + 1;
+    Map<PokeType, int> recordchart = {};
+
+    for (DexEntry entry in teamState.ownedPokemon.value!.dexIndex!) {
+      for (PokeType type in entry.types!) {
+        recordchart.update(type, ifAbsent: () => 1, (value) => value + 1);
       }
     }
 
-    // Determine the maximum over all
-    int record = 0;
-    typeMaxFoundMap.forEach((type, maxForTheType) {
-      if (maxForTheType > record) {
-        record = maxForTheType;
+    int topRecord = 0;
+    PokeType? predominant;
+    bool isDraw = false;
+
+    for (var recordEntry in recordchart.entries) {
+      if (recordEntry.value > topRecord) {
+        topRecord = recordEntry.value;
+        predominant = recordEntry.key;
+        isDraw = false;
+      } else if (recordEntry.value == topRecord) {
+        predominant = null;
+        isDraw = true;
       }
-    });
+    }
 
-    // Find all types that have the record value
-    final List<PokeType> typesWithRecord = typeMaxFoundMap.entries
-        .where((entry) => entry.value == record)
-        .map((entry) => entry.key)
-        .toList();
-
-
-    if (typesWithRecord.length == 1) {
+    if (!isDraw && predominant != null) {
       // wins only if alone
-      final colorScheme = ColorScheme.fromSwatch(primarySwatch: Constants.typeColors[typesWithRecord.first] ?? Colors.red);
+      final colorScheme = ColorScheme.fromSwatch(
+          primarySwatch: Constants.typeColors[predominant]!);
       changeSwatch(colorScheme);
     } else {
       // If there are no record alone, no one wins
@@ -60,11 +66,8 @@ class DisplayController extends GetxController {
     }
   }
 
-
-
-  void changeSwatch(ColorScheme swatch){
+  void changeSwatch(ColorScheme swatch) {
     state.appSwatch.value = swatch;
     update();
   }
-
 }
