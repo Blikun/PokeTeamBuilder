@@ -33,7 +33,6 @@ class DisplayController extends GetxController {
     }
 
     Map<PokeType, int> recordchart = {};
-
     for (DexEntry entry in teamState.ownedPokemon.value!.dexIndex!) {
       for (PokeType type in entry.types!) {
         recordchart.update(type, ifAbsent: () => 1, (value) => value + 1);
