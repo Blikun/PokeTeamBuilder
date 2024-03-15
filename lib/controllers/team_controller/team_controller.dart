@@ -20,22 +20,24 @@ class TeamController extends GetxController {
 
   @override
   void onInit() {
-    loadOwnedPokemon();
+    Future.delayed(1.seconds,(){
+      loadOwnedPokemon();
+    });
     super.onInit();
   }
 
   void loadOwnedPokemon() {
-    final loadedTeamData = localDataController.loadTeamData();
-    if (loadedTeamData != null) {
-      DisplayController displayController = Get.find<DisplayController>();
-      state.ownedPokemon.value = loadedTeamData;
-      state.ownedPokemon.refresh();
-      displayController.updateColorSwatch();
-      themedSnackbar(
-          title: "Captured pokemons loaded",
-          msg:
-              "Loaded ${state.ownedPokemon.value?.dexIndex?.length} pokemons from your past session");
-    }
+   final loadedTeamData = localDataController.loadTeamData();
+   if (loadedTeamData != null) {
+     DisplayController displayController = Get.find<DisplayController>();
+     state.ownedPokemon.value = loadedTeamData;
+     state.ownedPokemon.refresh();
+     displayController.updateColorSwatch();
+     themedSnackbar(
+         title: "Captured pokemons loaded",
+         msg:
+             "Loaded ${state.ownedPokemon.value?.dexIndex?.length} pokemons from your past session");
+   }
   }
 
   void saveOwnedPokemon() {
