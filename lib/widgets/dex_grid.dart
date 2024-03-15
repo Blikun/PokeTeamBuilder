@@ -35,19 +35,32 @@ class DexGrid extends StatelessWidget {
         children: [
           Expanded(
             child: pokedexState.shownIndex.value?.dexIndex == null
-                ?  Center(child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(width: 40, child: Lottie.asset(Assets.pokeballAnim)),
-                    const SizedBox(width: 10),
-                    const Text("Loading...", style: TextStyle(fontSize: 25),)
-                  ],
-                ))
+                ? Center(
+                    child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          width: 40, child: Lottie.asset(Assets.pokeballAnim)),
+                      const SizedBox(width: 10),
+                      const Text(
+                        "Loading...",
+                        style: TextStyle(fontSize: 25),
+                      )
+                    ],
+                  ))
                 : pokedexState.shownIndex.value!.dexIndex!.isEmpty == true
-                    ? const Center(child: Text("There is nothing to show!"))
+                    ? const Center(
+                        child: Text(
+                        "There is nothing to show!",
+                        style: TextStyle(color: Colors.white54),
+                      ))
                     : GridView.builder(
                         controller: displayController.scrollController,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        itemCount: pokedexState.shownIndex.value?.dexIndex?.length ?? 0,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        itemCount:
+                            pokedexState.shownIndex.value?.dexIndex?.length ??
+                                0,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 15,
                           crossAxisSpacing: 15,

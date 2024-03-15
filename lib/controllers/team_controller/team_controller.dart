@@ -28,7 +28,7 @@ class TeamController extends GetxController {
 
   void loadOwnedPokemon() {
    final loadedTeamData = localDataController.loadTeamData();
-   if (loadedTeamData != null) {
+   if (loadedTeamData != null && loadedTeamData.dexIndex!.isNotEmpty) {
      DisplayController displayController = Get.find<DisplayController>();
      state.ownedPokemon.value = loadedTeamData;
      state.ownedPokemon.refresh();

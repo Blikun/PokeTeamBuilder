@@ -22,7 +22,10 @@ class ImageDetails extends StatelessWidget {
           loadingBuilder: (context, child, loadingProgress) =>
           loadingProgress == null
               ? child
-              : Center(child: Lottie.asset(Assets.pokeballAnim)),
+              : Center(child: Padding(
+                padding: const EdgeInsets.all(150.0),
+                child: Lottie.asset(Assets.pokeballAnim),
+              )),
           errorBuilder: (context, error, stackTrace) =>
               Image.asset(Assets.substitute),
         ).animate(

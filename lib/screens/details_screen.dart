@@ -98,8 +98,7 @@ class _PokemonDataWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ImageDetails(
-              imageUrl: pokemon?.sprites?.showdown,
-              animated: true,
+              imageUrl: pokemon?.sprites?.officialArtwork,
             ),
             PokeTypeRow(types: pokemon?.types ?? []),
             NameIdTitle(
