@@ -49,7 +49,7 @@ class NavigationController extends GetxController {
   void changeActualPage(String pageRoute) {
     state.actualPage.value = pageRoute;
     switch (pageRoute) {
-      case "/minified:wc":
+      case "/minified:wd":
         pokedexController
             .updateShownPokemon(teamController.state.ownedPokemon.value!);  // fix for github webapp
         break;

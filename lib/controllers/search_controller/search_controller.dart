@@ -38,7 +38,7 @@ class FilterSearchController extends GetxController {
     IndexModel index;
     index = pokedexState.indexRepository.value!;
     if (navigationState.state.actualPage.value == "/OwnedScreen" ||
-        navigationState.state.actualPage.value == "/minified:wc") { // fix for uploading to github webapp
+        navigationState.state.actualPage.value == "/minified:wd") { // fix for uploading to github webapp
       index = teamState.ownedPokemon.value!;
     }
 
@@ -92,7 +92,7 @@ class FilterSearchController extends GetxController {
     IndexModel index = pokedexState.indexRepository.value!;
     index = pokedexState.indexRepository.value!;
     if (navigationState.state.actualPage.value == "/OwnedScreen" ||
-        navigationState.state.actualPage.value == "/minified:wc") {
+        navigationState.state.actualPage.value == "/minified:wd") {
       // fix for uploading to github webapp
       index = teamState.ownedPokemon.value!;
     }
