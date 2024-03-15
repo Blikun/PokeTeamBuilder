@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poke_team_builder/controllers/navigation_controller/navigation_controller.dart';
 import 'package:poke_team_builder/controllers/search_controller/search_controller.dart';
 import 'package:poke_team_builder/widgets/search_autocomplete.dart';
 import 'package:poke_team_builder/widgets/themed_button.dart';
@@ -12,6 +13,8 @@ AppBar themedAppBar({bool searchbar = false, bool actions = false}) {
   final DisplayController displayController = Get.find<DisplayController>();
   final FilterSearchController searchController =
   Get.find<FilterSearchController>();
+  final NavigationController navigationController =
+  Get.find<NavigationController>();
 
   return AppBar(
     backgroundColor: displayController.state.appSwatch.value.primary,
@@ -26,6 +29,7 @@ AppBar themedAppBar({bool searchbar = false, bool actions = false}) {
         : null,
     actions: [
       if (actions)...{
+        Text(navigationController.state.actualPage.value),
         Padding(
           padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
           child: ThemedButton(
